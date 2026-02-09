@@ -3,7 +3,7 @@ requires = ["setuptools>=61", "setuptools_scm>=7"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "billkit-python"
+name = "billkit"
 dynamic = ["version"]
 description = "Python client for Billkitco API"
 readme = "README.md"
@@ -38,7 +38,9 @@ Repository = "https://github.com/billkitco/billkit-python"
 where = ["src"]
 
 [tool.setuptools_scm]
-write_to = "src/billkit/version.py"
+write_to = "src/billkit/_version.py"
+version_scheme = "guess-next-dev"
+local_scheme = "no-local-version"   # ← this removes +... suffix
 root = "."
 
 [tool.ruff]
