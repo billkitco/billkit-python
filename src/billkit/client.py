@@ -13,7 +13,7 @@ class BillkitClient:
     """
 
     def __init__(
-        self, api_key: str | None = None, base_url: str = "https://api.billkitco.com/v1"
+        self, api_key: str | None = None, base_url: str = "https://api.billkit.co/v1"
     ) -> None:
         # Check env var first if no param
         if api_key is None:
