@@ -1,30 +1,23 @@
 [build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+requires = ["setuptools>=61", "setuptools_scm>=7"]
+build-backend = "setuptools.build_meta"
 
 [project]
 name = "billkit-python"
 dynamic = ["version"]
 description = "Python client for Billkitco API"
 readme = "README.md"
-requires-python = ">=3.10"
 license = {text = "MIT"}
-authors = [
-  {name = "Billkit", email = "billkitco@gmail.com"}
-]
+authors = [{name = "Billkit", email = "billkitco@gmail.com"}]
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
-
-[project.urls]
-Homepage = "https://billkit.co"
-Repository = "https://github.com/billkitco/billkit-python"
-"Issue Tracker" = "https://github.com/billkitco/billkit-python/issues"
-
+requires-python = ">=3.10"
 dependencies = [
     "httpx>=0.27.0",
+    "pydantic>=2.0",
 ]
 
 [project.optional-dependencies]
@@ -33,13 +26,29 @@ dev = [
     "pytest>=8.0.0",
     "ruff>=0.5.0",
     "black>=24.0.0",
+    "mypy>=1.10",
 ]
 
-[tool.hatch.version]
-source = "vcs"
+[project.urls]
+Homepage = "https://billkit.co"
+Repository = "https://github.com/billkitco/billkit-python"
+"Bug Tracker" = "https://github.com/billkitco/billkit-python/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools_scm]
+write_to = "src/billkit/version.py"
+root = "."
 
 [tool.ruff]
 line-length = 88
+target-version = "py310"
 
 [tool.black]
 line-length = 88
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
