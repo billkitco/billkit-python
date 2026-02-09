@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class InvoiceStyle(str, Enum):
+class _DocumentStyle(StrEnum):
     ClassicLeftLogo = "Classic Left Logo"
     ModernCenteredLogo = "Modern Centered Logo"
     CompactSingleColumn = "Compact Single-Column"
@@ -14,6 +14,17 @@ class InvoiceStyle(str, Enum):
     BoldRightLogoLayout = "Bold Right-Logo Layout"
 
 
-class DiscountType(str, Enum):
+    @classmethod
+    def as_invoice_style(cls) -> type[StrEnum]:
+        return StrEnum('InvoiceStyle', {name: value for name, value in cls.__members__.items()})
+    
+    @classmethod
+    def as_quote_style(cls) -> type[StrEnum]:
+        return StrEnum('QuoteStyle', {name: value for name, value in cls.__members__.items()})
+
+InvoiceStyle = _DocumentStyle.as_invoice_style()
+QuoteStyle = _DocumentStyle.as_quote_style()
+
+class DiscountType(StrEnum):
     Percentage = "percentage"
     Fixed = "fixed"
