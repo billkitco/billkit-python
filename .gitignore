@@ -214,3 +214,9 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Generated files
+src/billkit/_version.py
+src/billkit/version.py
+*_version.py
+version.py
