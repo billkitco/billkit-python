@@ -1,8 +1,10 @@
 from datetime import datetime
 from pydantic import BaseModel
 
+from .client import ClientDetails
 from .enums import InvoiceStyle
 from .items import ItemsBase, DiscountType
+from .sender import SenderDetails
 
 class InvoiceItem(ItemsBase): ...
 
@@ -40,17 +42,13 @@ class InvoiceCreate(BaseModel):
         discount_types: Type of discount applied (e.g., percentage vs fixed).
         discount_value: Numeric value of the discount (default 0.0).
     """
-    client_name: str
-    client_email: str
+    client_details: ClientDetails
     invoice_number: str
     due_date: datetime
-    item: list[InvoiceItem]
+    items: list[InvoiceItem]
 
-    from_name: str
-    from_email: str
-    from_address: str
+    sender_details: SenderDetails | None = None
 
-    client_address: str | None = None
     reference_number: str | None = None
     po_number: str | None = None
     invoice_date: datetime | None = None
