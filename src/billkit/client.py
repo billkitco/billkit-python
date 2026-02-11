@@ -13,12 +13,15 @@ class BillkitClient:
     """
 
     def __init__(
-        self, api_key: str | None = None, base_url: str = "https://api.billkit.co/v1"
+        self,
+        api_key: str | None = None,
+        base_url: str | None = None,
     ) -> None:
         # Check env var first if no param
         if api_key is None:
             api_key = os.getenv("BILLKITCO_API_KEY")
-
+        if base_url is None:
+            base_url = "https://api.billkit.co/v1"
         if not api_key:
             raise ValueError(
                 "API key required. Pass to BillkitClient(api_key='sk_...') "
@@ -33,7 +36,12 @@ class BillkitClient:
             timeout=30.0,
         )
 
-    def _request(self, method: str, endpoint: str, **kwargs: Any) -> dict:
+    def _request(
+        self,
+        method: str,
+        endpoint: str,
+        **kwargs: Any
+    ) -> dict[str, Any]:
         """Internal proxy to backend API endpoints."""
         url: str = f"{self.base_url}/{endpoint.lstrip('/')}"
         resp: httpx.Response = self._client.request(method, url, **kwargs)
