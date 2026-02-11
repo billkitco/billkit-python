@@ -1,31 +1,32 @@
-import os
 import httpx
 from typing import Any
 
+from ._settings import get_settings
 
 class BillkitClient:
     """
     client for Billkitco invoicing API.
 
     Usage:
-        client = BillkitClient()  # Uses BILLKITCO_API_KEY env var
-        client = BillkitClient(api_key="sk_...")
+        client = BillkitClient()  # Uses BILLKIT_SECRET_KEY and BASE_URL env vars
+        client = BillkitClient(api_key="sk_...", base_url="https://api.billkit.co/v1")  # Or pass in your own API key and base URL
     """
 
     def __init__(
         self,
         api_key: str | None = None,
-        base_url: str | None = None,
+        base_url: str | None = None
     ) -> None:
         # Check env var first if no param
+        settings = get_settings()
         if api_key is None:
-            api_key = os.getenv("BILLKITCO_API_KEY")
+            api_key = settings.api_key
         if base_url is None:
-            base_url = "https://api.billkit.co/v1"
+            base_url = settings.base_url
         if not api_key:
             raise ValueError(
                 "API key required. Pass to BillkitClient(api_key='sk_...') "
-                "or set BILLKITCO_API_KEY environment variable."
+                "or set BILLKIT_SECRET_KEY environment variable."
             )
 
         self.api_key = api_key
