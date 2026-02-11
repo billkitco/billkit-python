@@ -220,3 +220,5 @@ src/billkit/_version.py
 src/billkit/version.py
 *_version.py
 version.py
+
+scratch.py
