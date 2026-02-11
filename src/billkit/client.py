@@ -5,6 +5,7 @@ from ._settings import get_settings
 from .api.users import Users
 from .api.reports import Reports
 
+
 class BillkitClient:
     """
     client for Billkitco invoicing API.
