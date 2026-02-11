@@ -3,6 +3,7 @@ from typing import Any
 
 from ._settings import get_settings
 from .api.users import Users
+from .api.reports import Reports
 
 class BillkitClient:
     """
@@ -34,6 +35,7 @@ class BillkitClient:
             timeout=30.0,
         )
         self.users = Users(self._request)
+        self.reports = Reports(self._request)
 
     def _request(self, method: str, endpoint: str, **kwargs: Any) -> dict[str, Any]:
         """Internal proxy to backend API endpoints."""
