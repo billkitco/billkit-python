@@ -15,10 +15,6 @@ class UserDetails(BaseModel):
 
 
 class PartialUserDetails(BaseModel):
-    id: str | None = None
-    email: str | None = None
-    first_name: str | None = None
-    last_name: str | None = None
     business_name: str | None = None
     business_email: str | None = None
     business_address: str | None = None
