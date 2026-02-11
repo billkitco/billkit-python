@@ -13,17 +13,22 @@ class _DocumentStyle(StrEnum):
     MinimalMonochrome = "Minimal Monochrome"
     BoldRightLogoLayout = "Bold Right-Logo Layout"
 
-
     @classmethod
     def as_invoice_style(cls) -> type[StrEnum]:
-        return StrEnum('InvoiceStyle', {name: value for name, value in cls.__members__.items()})
-    
+        return StrEnum(
+            "InvoiceStyle", {name: value for name, value in cls.__members__.items()}
+        )
+
     @classmethod
     def as_quote_style(cls) -> type[StrEnum]:
-        return StrEnum('QuoteStyle', {name: value for name, value in cls.__members__.items()})
+        return StrEnum(
+            "QuoteStyle", {name: value for name, value in cls.__members__.items()}
+        )
+
 
 InvoiceStyle = _DocumentStyle.as_invoice_style()
 QuoteStyle = _DocumentStyle.as_quote_style()
+
 
 class DiscountType(StrEnum):
     Percentage = "percentage"

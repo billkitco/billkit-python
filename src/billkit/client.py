@@ -3,6 +3,7 @@ from typing import Any
 
 from ._settings import get_settings
 
+
 class BillkitClient:
     """
     client for Billkitco invoicing API.
@@ -12,11 +13,7 @@ class BillkitClient:
         client = BillkitClient(api_key="sk_...", base_url="https://api.billkit.co/v1")  # Or pass in your own API key and base URL
     """
 
-    def __init__(
-        self,
-        api_key: str | None = None,
-        base_url: str | None = None
-    ) -> None:
+    def __init__(self, api_key: str | None = None, base_url: str | None = None) -> None:
         # Check env var first if no param
         settings = get_settings()
         if api_key is None:
@@ -37,12 +34,7 @@ class BillkitClient:
             timeout=30.0,
         )
 
-    def _request(
-        self,
-        method: str,
-        endpoint: str,
-        **kwargs: Any
-    ) -> dict[str, Any]:
+    def _request(self, method: str, endpoint: str, **kwargs: Any) -> dict[str, Any]:
         """Internal proxy to backend API endpoints."""
         url: str = f"{self.base_url}/{endpoint.lstrip('/')}"
         resp: httpx.Response = self._client.request(method, url, **kwargs)

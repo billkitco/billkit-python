@@ -6,7 +6,9 @@ from .enums import InvoiceStyle
 from .items import ItemsBase, DiscountType
 from .sender import SenderDetails
 
+
 class InvoiceItem(ItemsBase): ...
+
 
 class InvoiceCreate(BaseModel):
     """
@@ -42,6 +44,7 @@ class InvoiceCreate(BaseModel):
         discount_types: Type of discount applied (e.g., percentage vs fixed).
         discount_value: Numeric value of the discount (default 0.0).
     """
+
     client_details: ClientDetails
     invoice_number: str
     due_date: datetime
@@ -60,7 +63,7 @@ class InvoiceCreate(BaseModel):
     """
     currency_code: str | None = None
     currency_symbol: str | None = None
-    
+
     notes: str | None = None
     terms: str | None = None
     discount_types: DiscountType | None = None

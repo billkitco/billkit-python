@@ -2,6 +2,7 @@ from dataclasses import dataclass
 import os
 from pathlib import Path
 
+
 @dataclass
 class Settings:
     api_key: str | None = None
@@ -17,13 +18,10 @@ class Settings:
                     if line and "=" in line and not line.startswith("#"):
                         key, value = line.split("=", 1)
                         os.environ[key.strip()] = value.strip()
-        
+
         return cls(
             api_key=os.getenv("BILLKIT_SECRET_KEY"),
-            base_url=os.getenv(
-                "BILLKIT_BASE_URL",
-                "https://api.billkit.co/v1"
-            )
+            base_url=os.getenv("BILLKIT_BASE_URL", "https://api.billkit.co/v1"),
         )
 
 

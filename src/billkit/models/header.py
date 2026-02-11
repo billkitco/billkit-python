@@ -1,6 +1,7 @@
 from datetime import datetime
 from pydantic import BaseModel
 
+
 class _BaseHeader(BaseModel):
     client_name: str
     client_email: str
@@ -14,6 +15,8 @@ class _BaseHeader(BaseModel):
     currency_symbol: str | None = None
     invoice_type: str | None = None
 
+
 class QuoteHeader(_BaseHeader): ...
+
 
 class InvoiceHeader(_BaseHeader): ...
