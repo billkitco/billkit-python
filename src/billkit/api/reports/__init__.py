@@ -8,7 +8,9 @@ class Reports:
 
     def get_revenue(self, currency: str | None = None):
         endpoint: str = "reports/revenue"
-        if currency is None:  # When no currency is added, behaviour defaults to using default currency of the authenticated account
+        if (
+            currency is None
+        ):  # When no currency is added, behaviour defaults to using default currency of the authenticated account
             response_data = self.requester("GET", endpoint)
         else:
             response_data = self.requester("GET", f"{endpoint}?currency={currency}")
