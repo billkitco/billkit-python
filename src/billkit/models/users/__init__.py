@@ -14,7 +14,6 @@ class UserDetails(BaseModel):
     logo_url: str | None = None
 
 
-
 class PartialUserDetails(BaseModel):
     id: str | None = None
     email: str | None = None
@@ -25,3 +24,8 @@ class PartialUserDetails(BaseModel):
     business_address: str | None = None
     logo_url: str | None = None
     default_currency: str | None
+
+
+class LogoUploadResponse(BaseModel):
+    logo_url: str
+    public_id: str

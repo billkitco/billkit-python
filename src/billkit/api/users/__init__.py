@@ -1,5 +1,10 @@
+from pathlib import Path
 from collections.abc import Callable
-from ...models.users import UserDetails, PartialUserDetails
+from ...models.users import (
+    UserDetails,
+    PartialUserDetails,
+    LogoUploadResponse
+)
 
 
 class Users:
@@ -19,3 +24,12 @@ class Users:
         )
         return UserDetails(**response_data)
     
+    def upload_logo(self, image_path: str | Path):
+        with open(image_path, "rb") as f:
+            files = {"file": f}
+            response_data = self.requester(
+                "POST",
+                "users/logo",
+                files=files
+            )
+        return LogoUploadResponse(**response_data)
