@@ -5,10 +5,23 @@ class UserDetails(BaseModel):
     email: str
     first_name: str
     last_name: str
-    business_name: str
-    business_email: str
-    business_address: str
-    logo_url: str
-    default_currency: str
     created_at: str
     updated_at: str
+    default_currency: str
+    business_name: str | None = None
+    business_email: str | None = None
+    business_address: str | None = None
+    logo_url: str | None = None
+
+
+
+class PartialUserDetails(BaseModel):
+    id: str | None = None
+    email: str | None = None
+    first_name: str | None = None
+    last_name: str | None = None
+    business_name: str | None = None
+    business_email: str | None = None
+    business_address: str | None = None
+    logo_url: str | None = None
+    default_currency: str | None
