@@ -8,7 +8,7 @@ class Reports:
 
     def get_revenue(self, currency: str | None = None):
         """
-        Fetch the current user's revenue for a given currency. If no currency is passed as a param, 
+        Fetch the current user's revenue for a given currency. If no currency is passed as a param,
         Returns:
             RevenueReportResponse: The authenticated user's revenue report.
 
@@ -17,9 +17,7 @@ class Reports:
             print(report.summary)
         """
         endpoint: str = "reports/revenue"
-        if (
-            currency is None
-        ):
+        if currency is None:
             response_data = self.requester("GET", endpoint)
         else:
             response_data = self.requester("GET", f"{endpoint}?currency={currency}")
