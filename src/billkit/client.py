@@ -4,6 +4,8 @@ from typing import Any
 from ._settings import get_settings
 from .api.users import Users
 from .api.reports import Reports
+from .api.invoices import Invoices
+from .api.quotes import Quotes
 
 
 class BillkitClient:
@@ -37,7 +39,8 @@ class BillkitClient:
         )
         self.users = Users(self._request)
         self.reports = Reports(self._request)
-
+        self.invoices = Invoices(self._request)
+        self.quotes = Quotes(self._request)
     def _request(self, method: str, endpoint: str, **kwargs: Any) -> dict[str, Any]:
         """Internal proxy to backend API endpoints."""
         url: str = f"{self.base_url}/{endpoint.lstrip('/')}"
