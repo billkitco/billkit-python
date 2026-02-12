@@ -62,3 +62,6 @@ class RevenueReportResponse(BaseModel):
     by_client: list[ByClientItem] = Field(..., alias="byClient")
     by_status: list[ByStatusItem] = Field(..., alias="byStatus")
     available_currencies: list[Currency] = Field(..., alias="availableCurrencies")
+    """
+    This is a list of currencies used in the saved created invoices.
+    """
