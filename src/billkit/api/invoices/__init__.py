@@ -7,7 +7,7 @@ from .._base import _BaseDocuments
 
 class Invoices(_BaseDocuments):
     def __init__(self, requester: Callable):
-        self._requester = requester
+        super().__init__(requester)
 
     def update_status(self, file_id: str, invoice_status: Literal["not_paid", "paid"]):
         if invoice_status not in ("not_paid", "paid"):
