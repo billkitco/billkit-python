@@ -1,7 +1,11 @@
 from collections.abc import Callable
 from typing import Any, Literal
 
-from ...models.invoices import InvoiceStatusUpdateRequest, InvoiceStatusUpdateResponse
+from ...models.invoices import (
+    InvoiceDeleteResponse,
+    InvoiceStatusUpdateRequest,
+    InvoiceStatusUpdateResponse,
+)
 from .._base import _BaseDocuments
 
 
@@ -25,4 +29,4 @@ class Invoices(_BaseDocuments):
 
     def delete(self, file_id: str):
         response_data = self._requester("DELETE", f"invoices?file_id={file_id}")
-        return response_data
+        return InvoiceDeleteResponse(**response_data)
