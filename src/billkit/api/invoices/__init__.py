@@ -25,5 +25,4 @@ class Invoices(_BaseDocuments):
 
     def delete(self, file_id: str):
         response_data = self._requester("DELETE", f"invoices?file_id={file_id}")
-        print(response_data)
         return response_data
