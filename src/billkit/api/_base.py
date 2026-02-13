@@ -1,8 +1,8 @@
-from abc import abstractmethod
+from abc import ABC, abstractmethod
 from collections.abc import Callable
 
 
-class _BaseDocuments:
+class _BaseDocuments(ABC):
     def __init__(self, requester: Callable):
         self._requester = requester
 
