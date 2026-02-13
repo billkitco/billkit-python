@@ -1,10 +1,11 @@
 from collections.abc import Callable
+
 from ...models.reports import RevenueReportResponse
 
 
 class Reports:
     def __init__(self, requester: Callable):
-        self.requester = requester
+        self._requester = requester
 
     def get_revenue(self, currency: str | None = None):
         """
@@ -18,7 +19,7 @@ class Reports:
         """
         endpoint: str = "reports/revenue"
         if currency is None:
-            response_data = self.requester("GET", endpoint)
+            response_data = self._requester("GET", endpoint)
         else:
-            response_data = self.requester("GET", f"{endpoint}?currency={currency}")
+            response_data = self._requester("GET", f"{endpoint}?currency={currency}")
         return RevenueReportResponse(**response_data)

@@ -1,11 +1,12 @@
-from pathlib import Path
 from collections.abc import Callable
-from ...models.users import UserDetails, PartialUserDetails, LogoUploadResponse
+from pathlib import Path
+
+from ...models.users import LogoUploadResponse, PartialUserDetails, UserDetails
 
 
 class Users:
     def __init__(self, requester: Callable) -> None:
-        self.requester = requester
+        self._requester = requester
 
     def get_user(self) -> UserDetails:
         """
@@ -18,7 +19,7 @@ class Users:
             user = client.users.get_user()
             print(user.email)
         """
-        response_data = self.requester("GET", "users/me")
+        response_data = self._requester("GET", "users/me")
         return UserDetails(**response_data)
 
     def patch_user(self, user_details: PartialUserDetails) -> UserDetails:
@@ -38,7 +39,7 @@ class Users:
             updates = PartialUserDetails(name="New Name")
             updated_user = client.users.patch_user(updates)
         """
-        response_data = self.requester(
+        response_data = self._requester(
             "PATCH", "users/me", json=user_details.model_dump(exclude_unset=True)
         )
         return UserDetails(**response_data)
@@ -62,5 +63,5 @@ class Users:
         """
         with open(image_path, "rb") as f:
             files = {"file": f}
-            response_data = self.requester("POST", "users/logo", files=files)
+            response_data = self._requester("POST", "users/logo", files=files)
         return LogoUploadResponse(**response_data)
