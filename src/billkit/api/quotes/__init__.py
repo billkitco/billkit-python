@@ -1,3 +1,4 @@
 from .._base import _BaseDocuments
 
+
 class Quotes(_BaseDocuments): ...

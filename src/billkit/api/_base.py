@@ -1,5 +1,6 @@
 from collections.abc import Callable
 
+
 class _BaseDocuments:
     def __init__(self, requester: Callable):
         self.requester = requester
