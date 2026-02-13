@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from collections.abc import Callable
+from typing import Any
 
 
 class _BaseDocuments(ABC):
@@ -19,7 +20,7 @@ class _BaseDocuments(ABC):
     # def check_storage(self): ...
 
     @abstractmethod
-    def delete(self, file_id: str): ...
+    def delete(self, file_id: str) -> Any: ...
 
     # @abstractmethod
     # def create_batch_from_csv(self): ...
