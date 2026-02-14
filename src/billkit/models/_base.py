@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 
-class SendEmailRequest(BaseModel):
+class _SendEmailRequest(BaseModel):
     to: list[str]
     subject: str
     body: str
@@ -9,14 +9,14 @@ class SendEmailRequest(BaseModel):
     file_ids: list[str] | None
 
 
-class SendEmailResponse(BaseModel):
+class _SendEmailResponse(BaseModel):
     success: bool
     message_id: str | None
     status_code: int
     detail: str | None
 
 
-class CSVBatchResponse(BaseModel):
+class _CSVBatchResponse(BaseModel):
     job_id: str
     status: str
     webhook_url: str

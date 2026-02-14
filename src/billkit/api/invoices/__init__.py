@@ -3,6 +3,7 @@ from collections.abc import Callable
 from typing import Any, Literal
 
 from ...models.invoices import (
+    InvoiceCSVBatchResponse,
     InvoiceDeleteResponse,
     InvoiceSendEmailRequest,
     InvoiceSendEmailResponse,
@@ -68,7 +69,9 @@ class Invoices(_BaseDocuments):
                 "invoice_csv": (os.path.basename(data_path), invoice_f, "text/csv"),
                 "items_csv": (os.path.basename(items_path), items_f, "text/csv"),
             }
-            return self._requester("POST", "batch/invoices/csv", files=files)
+            return InvoiceCSVBatchResponse(
+                **self._requester("POST", "batch/invoices/csv", files=files)
+            )
 
     def create_batch_from_json(
         self,
