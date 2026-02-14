@@ -27,3 +27,13 @@ class _BaseDocuments(ABC):
 
     # @abstractmethod
     # def create_batch_from_json(self): ...
+
+    @abstractmethod
+    def send_email(
+        self,
+        to: list[str],
+        subject: str,
+        body: str,
+        from_email: str | None = None,
+        file_ids: list[str] | None = None,
+    ) -> Any: ...

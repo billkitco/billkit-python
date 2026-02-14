@@ -3,8 +3,10 @@ from typing import Any, Literal
 
 from ...models.invoices import (
     InvoiceDeleteResponse,
+    InvoiceSendEmailRequest,
     InvoiceStatusUpdateRequest,
     InvoiceStatusUpdateResponse,
+    SendEmailResponse,
 )
 from .._base import _BaseDocuments
 
@@ -30,3 +32,22 @@ class Invoices(_BaseDocuments):
     def delete(self, file_id: str):
         response_data = self._requester("DELETE", f"invoices?file_id={file_id}")
         return InvoiceDeleteResponse(**response_data)
+
+    def send_email(
+        self,
+        to: list[str],
+        subject: str,
+        body: str = "",
+        from_email: str | None = None,
+        file_ids: list[str] | None = None,
+    ):
+        payload = InvoiceSendEmailRequest(
+            to=to,
+            subject=subject,
+            body=body,
+            from_email=from_email,
+            file_ids=file_ids,
+        )
+
+        response_data = self._requester("POST", "email/send", json=payload.model_dump())
+        return SendEmailResponse(**response_data)
