@@ -16,9 +16,6 @@ class _BaseDocuments(ABC):
     # @abstractmethod
     # def record(self): ...
 
-    # @abstractmethod
-    # def check_storage(self): ...
-
     @abstractmethod
     def delete(self, file_id: str) -> Any: ...
 
