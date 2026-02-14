@@ -1,3 +1,4 @@
+import os
 from collections.abc import Callable
 from typing import Any, Literal
 
@@ -53,3 +54,7 @@ class Invoices(_BaseDocuments):
 
         response_data = self._requester("POST", "email/send", json=payload.model_dump())
         return InvoiceSendEmailResponse(**response_data)
+
+    def create_batch_from_csv(
+        self, data_file_path: os.PathLike[str], items_file_path: os.PathLike
+    ) -> Any: ...

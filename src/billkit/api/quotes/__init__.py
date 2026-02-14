@@ -1,4 +1,6 @@
+import os
 from collections.abc import Callable
+from typing import Any
 
 from ...models.quotes import (
     QuoteDeleteResponse,
@@ -34,3 +36,7 @@ class Quotes(_BaseDocuments):
 
         response_data = self._requester("POST", "email/send", json=payload.model_dump())
         return QuoteSendEmailResponse(**response_data)
+
+    def create_batch_from_csv(
+        self, data_file_path: os.PathLike[str], items_file_path: os.PathLike
+    ) -> Any: ...

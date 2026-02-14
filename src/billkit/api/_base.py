@@ -1,3 +1,4 @@
+import os
 from abc import ABC, abstractmethod
 from collections.abc import Callable
 from typing import Any
@@ -19,8 +20,10 @@ class _BaseDocuments(ABC):
     @abstractmethod
     def delete(self, file_id: str) -> Any: ...
 
-    # @abstractmethod
-    # def create_batch_from_csv(self): ...
+    @abstractmethod
+    def create_batch_from_csv(
+        self, data_file_path: os.PathLike[str], items_file_path: os.PathLike
+    ) -> Any: ...
 
     # @abstractmethod
     # def create_batch_from_json(self): ...
