@@ -44,7 +44,7 @@ class Users:
         )
         return UserDetails(**response_data)
 
-    def upload_logo(self, image_path: str | Path):
+    def upload_logo(self, image_path: str | Path) -> LogoUploadResponse:
         """
         Upload a logo image to the user profile.
 

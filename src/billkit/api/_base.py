@@ -4,7 +4,7 @@ from typing import Any
 
 
 class _BaseDocuments(ABC):
-    def __init__(self, requester: Callable):
+    def __init__(self, requester: Callable) -> None:
         self._requester = requester
 
     # @abstractmethod

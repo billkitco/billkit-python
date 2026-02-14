@@ -12,10 +12,12 @@ from .._base import _BaseDocuments
 
 
 class Invoices(_BaseDocuments):
-    def __init__(self, requester: Callable):
+    def __init__(self, requester: Callable) -> None:
         super().__init__(requester)
 
-    def update_status(self, file_id: str, invoice_status: Literal["not_paid", "paid"]):
+    def update_status(
+        self, file_id: str, invoice_status: Literal["not_paid", "paid"]
+    ) -> InvoiceStatusUpdateResponse:
         if invoice_status not in ("not_paid", "paid"):
             raise ValueError("invoice_status must be either 'not_paid' or 'paid'")
 
@@ -29,7 +31,7 @@ class Invoices(_BaseDocuments):
         )
         return InvoiceStatusUpdateResponse(**request_data)
 
-    def delete(self, file_id: str):
+    def delete(self, file_id: str) -> InvoiceDeleteResponse:
         response_data = self._requester("DELETE", f"invoices?file_id={file_id}")
         return InvoiceDeleteResponse(**response_data)
 
@@ -40,7 +42,7 @@ class Invoices(_BaseDocuments):
         body: str = "",
         from_email: str | None = None,
         file_ids: list[str] | None = None,
-    ):
+    ) -> SendEmailResponse:
         payload = InvoiceSendEmailRequest(
             to=to,
             subject=subject,
