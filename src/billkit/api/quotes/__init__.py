@@ -38,9 +38,22 @@ class Quotes(_BaseDocuments):
         return QuoteSendEmailResponse(**response_data)
 
     def create_batch_from_csv(
-        self, data_file_path: os.PathLike[str], items_file_path: os.PathLike
-    ) -> Any: ...
+        self,
+        data_file_path: os.PathLike[str],
+        items_file_path: os.PathLike[str],
+    ) -> Any:
+        """Create a batch quotes job from two CSV files (quotes data + line items)."""
+        data_path = os.fspath(data_file_path)
+        items_path = os.fspath(items_file_path)
+        with open(data_path, "rb") as quote_f, open(items_path, "rb") as items_f:
+            files = {
+                "quote_csv": (os.path.basename(data_path), quote_f, "text/csv"),
+                "items_csv": (os.path.basename(items_path), items_f, "text/csv"),
+            }
+            return self._requester("POST", "batch/quotes/csv", files=files)
 
     def create_batch_from_json(
-        self, data_file_path: os.PathLike[str], items_file_path: os.PathLike
+        self,
+        data_file_path: os.PathLike[str],
+        items_file_path: os.PathLike[str],
     ) -> Any: ...
