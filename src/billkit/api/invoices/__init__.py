@@ -4,9 +4,9 @@ from typing import Any, Literal
 from ...models.invoices import (
     InvoiceDeleteResponse,
     InvoiceSendEmailRequest,
+    InvoiceSendEmailResponse,
     InvoiceStatusUpdateRequest,
     InvoiceStatusUpdateResponse,
-    SendEmailResponse,
 )
 from .._base import _BaseDocuments
 
@@ -42,7 +42,7 @@ class Invoices(_BaseDocuments):
         body: str = "",
         from_email: str | None = None,
         file_ids: list[str] | None = None,
-    ) -> SendEmailResponse:
+    ) -> InvoiceSendEmailResponse:
         payload = InvoiceSendEmailRequest(
             to=to,
             subject=subject,
@@ -52,4 +52,4 @@ class Invoices(_BaseDocuments):
         )
 
         response_data = self._requester("POST", "email/send", json=payload.model_dump())
-        return SendEmailResponse(**response_data)
+        return InvoiceSendEmailResponse(**response_data)

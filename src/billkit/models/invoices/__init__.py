@@ -1,6 +1,6 @@
 from .create import InvoiceCreate
 from .delete import InvoiceDeleteResponse
-from .email import InvoiceSendEmailRequest, SendEmailResponse
+from .email import InvoiceSendEmailRequest, InvoiceSendEmailResponse
 from .status import InvoiceStatusUpdateRequest, InvoiceStatusUpdateResponse
 
 __all__: list[str] = [
@@ -9,5 +9,5 @@ __all__: list[str] = [
     "InvoiceStatusUpdateRequest",
     "InvoiceStatusUpdateResponse",
     "InvoiceSendEmailRequest",
-    "SendEmailResponse",
+    "InvoiceSendEmailResponse",
 ]

@@ -1,6 +1,10 @@
 from collections.abc import Callable
 
-from ...models.quotes import QuoteDeleteResponse
+from ...models.quotes import (
+    QuoteDeleteResponse,
+    QuoteSendEmailRequest,
+    QuoteSendEmailResponse,
+)
 from .._base import _BaseDocuments
 
 
@@ -16,8 +20,17 @@ class Quotes(_BaseDocuments):
         self,
         to: list[str],
         subject: str,
-        body: str,
+        body: str = "",
         from_email: str | None = None,
         file_ids: list[str] | None = None,
-    ):
-        raise NotImplementedError()
+    ) -> QuoteSendEmailResponse:
+        payload = QuoteSendEmailRequest(
+            to=to,
+            subject=subject,
+            body=body,
+            from_email=from_email,
+            file_ids=file_ids,
+        )
+
+        response_data = self._requester("POST", "email/send", json=payload.model_dump())
+        return QuoteSendEmailResponse(**response_data)
