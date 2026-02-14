@@ -43,7 +43,7 @@ class BillkitClient:
         self.invoices = Invoices(self._request)
         self.quotes = Quotes(self._request)
 
-    def _request(self, method: str, endpoint: str, **kwargs: Any) -> dict[str, Any]:
+    def _request(self, method: str, endpoint: str, **kwargs: Any) -> Any:
         """Internal proxy to backend API endpoints."""
         url: str = f"{self.base_url}/{endpoint.lstrip('/')}"
         resp: httpx.Response = self._client.request(method, url, **kwargs)
