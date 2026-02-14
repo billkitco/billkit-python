@@ -25,8 +25,10 @@ class _BaseDocuments(ABC):
         self, data_file_path: os.PathLike[str], items_file_path: os.PathLike
     ) -> Any: ...
 
-    # @abstractmethod
-    # def create_batch_from_json(self): ...
+    @abstractmethod
+    def create_batch_from_json(
+        self, data_file_path: os.PathLike[str], items_file_path: os.PathLike
+    ) -> Any: ...
 
     @abstractmethod
     def send_email(

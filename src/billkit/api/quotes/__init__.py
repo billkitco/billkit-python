@@ -40,3 +40,7 @@ class Quotes(_BaseDocuments):
     def create_batch_from_csv(
         self, data_file_path: os.PathLike[str], items_file_path: os.PathLike
     ) -> Any: ...
+
+    def create_batch_from_json(
+        self, data_file_path: os.PathLike[str], items_file_path: os.PathLike
+    ) -> Any: ...
