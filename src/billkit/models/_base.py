@@ -14,3 +14,9 @@ class SendEmailResponse(BaseModel):
     message_id: str | None
     status_code: int
     detail: str | None
+
+
+class CSVBatchResponse(BaseModel):
+    job_id: str
+    status: str
+    webhook_url: str
