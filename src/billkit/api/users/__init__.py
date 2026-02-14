@@ -1,5 +1,5 @@
+import os
 from collections.abc import Callable
-from pathlib import Path
 
 from ...models.users import LogoUploadResponse, PartialUserDetails, UserDetails
 
@@ -44,7 +44,7 @@ class Users:
         )
         return UserDetails(**response_data)
 
-    def upload_logo(self, image_path: str | Path) -> LogoUploadResponse:
+    def upload_logo(self, image_path: os.PathLike[str]) -> LogoUploadResponse:
         """
         Upload a logo image to the user profile.
 
@@ -61,7 +61,7 @@ class Users:
             user = client.users.get_user()
             print(user.logo_url)  # Use the new logo
         """
-        with open(image_path, "rb") as f:
+        with open(os.fspath(image_path), "rb") as f:
             files = {"file": f}
             response_data = self._requester("POST", "users/logo", files=files)
         return LogoUploadResponse(**response_data)
