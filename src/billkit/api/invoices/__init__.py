@@ -84,6 +84,7 @@ class Invoices(_BaseDocuments):
     def create_batch_from_json(
         self,
         data: dict[str, Any],
-    ) -> Any:
-        response_data = self._requester("POST", "batch/invoices/json", json=data)
-        return response_data
+    ) -> InvoiceBatchResponse:
+        return InvoiceBatchResponse(
+            **self._requester("POST", "batch/invoices/json", json=data)
+        )

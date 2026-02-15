@@ -66,6 +66,7 @@ class Quotes(_BaseDocuments):
     def create_batch_from_json(
         self,
         data: dict[str, Any],
-    ) -> Any:
-        response_data = self._requester("POST", "batch/quotes/json", json=data)
-        return response_data
+    ) -> QuoteBatchResponse:
+        return QuoteBatchResponse(
+            **self._requester("POST", "batch/quotes/json", json=data)
+        )
