@@ -77,7 +77,8 @@ class Invoices(_BaseDocuments):
         self,
         data: dict[str, Any],
         items: dict[str, Any],
-    ) -> Any: ...
+    ) -> Any:
+        raise NotImplementedError
 
     def get_batch_status(
         self,
