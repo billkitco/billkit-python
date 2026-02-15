@@ -1,9 +1,9 @@
 from pydantic import BaseModel, Field
 
-from .._base import _BaseBatchStatusResponse, _CSVBatchResponse
+from .._base import _BaseBatchStatusResponse, _BatchResponse
 
 
-class QuoteCSVBatchResponse(_CSVBatchResponse): ...
+class QuoteBatchResponse(_BatchResponse): ...
 
 
 class QuoteBatchRecord(BaseModel):

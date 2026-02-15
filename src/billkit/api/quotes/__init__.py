@@ -5,8 +5,8 @@ from typing import Any
 from typing_extensions import override
 
 from ...models.quotes import (
+    QuoteBatchResponse,
     QuoteBatchStatusResponse,
-    QuoteCSVBatchResponse,
     QuoteDeleteResponse,
     QuoteSendEmailRequest,
     QuoteSendEmailResponse,
@@ -45,7 +45,7 @@ class Quotes(_BaseDocuments):
         self,
         data_file_path: os.PathLike[str],
         items_file_path: os.PathLike[str],
-    ) -> QuoteCSVBatchResponse:
+    ) -> QuoteBatchResponse:
         """Create a batch quotes job from two CSV files (quotes data + line items)."""
         data_path = os.fspath(data_file_path)
         items_path = os.fspath(items_file_path)
@@ -54,7 +54,7 @@ class Quotes(_BaseDocuments):
                 "quote_csv": (os.path.basename(data_path), quote_f, "text/csv"),
                 "items_csv": (os.path.basename(items_path), items_f, "text/csv"),
             }
-            return QuoteCSVBatchResponse(
+            return QuoteBatchResponse(
                 **self._requester("POST", "batch/quotes/csv", files=files)
             )
 
@@ -67,4 +67,5 @@ class Quotes(_BaseDocuments):
         self,
         data: dict[str, Any],
     ) -> Any:
-        raise NotImplementedError
+        response_data = self._requester("POST", "batch/quotes/json", json=data)
+        return response_data

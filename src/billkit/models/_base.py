@@ -26,7 +26,7 @@ class _SendEmailResponse(BaseModel):
     detail: str | None
 
 
-class _CSVBatchResponse(BaseModel):
+class _BatchResponse(BaseModel):
     job_id: str
     status: str
     webhook_url: str

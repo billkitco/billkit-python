@@ -5,8 +5,8 @@ from typing import Any, Literal
 from typing_extensions import override
 
 from ...models.invoices import (
+    InvoiceBatchResponse,
     InvoiceBatchStatusResponse,
-    InvoiceCSVBatchResponse,
     InvoiceDeleteResponse,
     InvoiceSendEmailRequest,
     InvoiceSendEmailResponse,
@@ -63,7 +63,7 @@ class Invoices(_BaseDocuments):
         self,
         data_file_path: os.PathLike[str],
         items_file_path: os.PathLike[str],
-    ) -> Any:
+    ) -> InvoiceBatchResponse:
         """Create a batch invoices job from two CSV files (invoices data + line items)."""
         data_path = os.fspath(data_file_path)
         items_path = os.fspath(items_file_path)
@@ -72,7 +72,7 @@ class Invoices(_BaseDocuments):
                 "invoice_csv": (os.path.basename(data_path), invoice_f, "text/csv"),
                 "items_csv": (os.path.basename(items_path), items_f, "text/csv"),
             }
-            return InvoiceCSVBatchResponse(
+            return InvoiceBatchResponse(
                 **self._requester("POST", "batch/invoices/csv", files=files)
             )
 
@@ -85,4 +85,5 @@ class Invoices(_BaseDocuments):
         self,
         data: dict[str, Any],
     ) -> Any:
-        raise NotImplementedError
+        response_data = self._requester("POST", "batch/invoices/json", json=data)
+        return response_data
