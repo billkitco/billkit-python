@@ -22,8 +22,11 @@ class _BaseDocuments(ABC):
 
     @abstractmethod
     def create_batch_from_csv(
-        self, data_file_path: os.PathLike[str], items_file_path: os.PathLike[str]
-    ) -> Any: ...
+        self,
+        data_file_path: os.PathLike[str],
+        items_file_path: os.PathLike[str],
+    ) -> Any:
+        """Create a batch job from two CSV files (data + line items)."""
 
     @abstractmethod
     def create_batch_from_json(
@@ -46,4 +49,5 @@ class _BaseDocuments(ABC):
     def get_batch_status(
         self,
         job_id: str,
-    ) -> Any: ...
+    ) -> Any:
+        """Fetch status of a batch job"""
