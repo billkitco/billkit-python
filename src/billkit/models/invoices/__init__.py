@@ -1,4 +1,8 @@
-from .create import InvoiceCSVBatchResponse
+from .batch import (
+    InvoiceBatchRecord,
+    InvoiceBatchStatusResponse,
+    InvoiceCSVBatchResponse,
+)
 from .delete import InvoiceDeleteResponse
 from .email import InvoiceSendEmailRequest, InvoiceSendEmailResponse
 from .status import InvoiceStatusUpdateRequest, InvoiceStatusUpdateResponse
@@ -10,4 +14,6 @@ __all__: list[str] = [
     "InvoiceStatusUpdateResponse",
     "InvoiceSendEmailRequest",
     "InvoiceSendEmailResponse",
+    "InvoiceBatchRecord",
+    "InvoiceBatchStatusResponse",
 ]

@@ -1,6 +1,7 @@
 from datetime import datetime
 from decimal import Decimal
 from enum import StrEnum
+from typing import Any
 
 from pydantic import BaseModel, Field, model_validator
 
@@ -61,3 +62,17 @@ class _BaseHeader(BaseModel):
     currency_code: str | None = None
     currency_symbol: str | None = None
     invoice_type: str | None = None
+
+
+class _BaseBatchStatusResponse(BaseModel):
+    job_id: str = Field(..., alias="job_id")
+    status: str
+    entity_type: str
+    source: str
+    error: Any | None = None
+    total_count: int
+    imported_count: int
+    created_at: datetime = Field(..., alias="created_at")
+    updated_at: datetime = Field(..., alias="updated_at")
+
+    model_config = {"populate_by_name": True}

@@ -1,10 +1,7 @@
-from .._base import _BaseHeader, _BaseItem, _CSVBatchResponse
+from .._base import _BaseHeader, _BaseItem
 
 
 class QuoteItem(_BaseItem): ...
-
-
-class QuoteCSVBatchResponse(_CSVBatchResponse): ...
 
 
 class QuoteHeader(_BaseHeader): ...

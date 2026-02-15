@@ -2,7 +2,10 @@ import os
 from collections.abc import Callable
 from typing import Any, Literal
 
+from typing_extensions import override
+
 from ...models.invoices import (
+    InvoiceBatchStatusResponse,
     InvoiceCSVBatchResponse,
     InvoiceDeleteResponse,
     InvoiceSendEmailRequest,
@@ -72,6 +75,11 @@ class Invoices(_BaseDocuments):
             return InvoiceCSVBatchResponse(
                 **self._requester("POST", "batch/invoices/csv", files=files)
             )
+
+    @override
+    def get_batch_status(self, job_id: str) -> InvoiceBatchStatusResponse:
+        data = super().get_batch_status(job_id)
+        return InvoiceBatchStatusResponse.model_validate(data)
 
     def create_batch_from_json(
         self,

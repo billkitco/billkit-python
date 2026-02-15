@@ -48,7 +48,7 @@ class _BaseDocuments(ABC):
     def get_batch_status(
         self,
         job_id: str,
-    ):
+    ) -> dict[str, Any]:
         response_data: dict[str, Any] = self._requester(
             "GET",
             f"batch/jobs/{job_id}",

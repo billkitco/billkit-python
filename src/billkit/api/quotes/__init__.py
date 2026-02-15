@@ -2,7 +2,10 @@ import os
 from collections.abc import Callable
 from typing import Any
 
+from typing_extensions import override
+
 from ...models.quotes import (
+    QuoteBatchStatusResponse,
     QuoteCSVBatchResponse,
     QuoteDeleteResponse,
     QuoteSendEmailRequest,
@@ -54,6 +57,11 @@ class Quotes(_BaseDocuments):
             return QuoteCSVBatchResponse(
                 **self._requester("POST", "batch/quotes/csv", files=files)
             )
+
+    @override
+    def get_batch_status(self, job_id: str) -> QuoteBatchStatusResponse:
+        data = super().get_batch_status(job_id)
+        return QuoteBatchStatusResponse.model_validate(data)
 
     def create_batch_from_json(
         self,
