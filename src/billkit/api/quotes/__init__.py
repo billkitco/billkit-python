@@ -3,6 +3,7 @@ from collections.abc import Callable
 from typing import Any
 
 from ...models.quotes import (
+    QuoteCSVBatchResponse,
     QuoteDeleteResponse,
     QuoteSendEmailRequest,
     QuoteSendEmailResponse,
@@ -41,7 +42,7 @@ class Quotes(_BaseDocuments):
         self,
         data_file_path: os.PathLike[str],
         items_file_path: os.PathLike[str],
-    ) -> Any:
+    ) -> QuoteCSVBatchResponse:
         """Create a batch quotes job from two CSV files (quotes data + line items)."""
         data_path = os.fspath(data_file_path)
         items_path = os.fspath(items_file_path)
@@ -50,7 +51,9 @@ class Quotes(_BaseDocuments):
                 "quote_csv": (os.path.basename(data_path), quote_f, "text/csv"),
                 "items_csv": (os.path.basename(items_path), items_f, "text/csv"),
             }
-            return self._requester("POST", "batch/quotes/csv", files=files)
+            return QuoteCSVBatchResponse(
+                **self._requester("POST", "batch/quotes/csv", files=files)
+            )
 
     def create_batch_from_json(
         self,
