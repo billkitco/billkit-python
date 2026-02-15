@@ -41,3 +41,9 @@ class _BaseDocuments(ABC):
         from_email: str | None = None,
         file_ids: list[str] | None = None,
     ) -> Any: ...
+
+    @abstractmethod
+    def get_batch_status(
+        self,
+        job_id: str,
+    ) -> Any: ...

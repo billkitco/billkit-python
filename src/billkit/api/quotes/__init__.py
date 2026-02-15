@@ -57,3 +57,9 @@ class Quotes(_BaseDocuments):
         data: dict[str, Any],
         items: dict[str, Any],
     ) -> Any: ...
+
+    def get_batch_status(
+        self,
+        job_id: str,
+    ):
+        raise NotImplementedError()
