@@ -32,7 +32,6 @@ class _BaseDocuments(ABC):
     def create_batch_from_json(
         self,
         data: dict[str, Any],
-        items: dict[str, Any],
     ) -> Any: ...
 
     @abstractmethod
