@@ -25,8 +25,3 @@ class QuoteStyle(StrEnum):
     RetainerSubscriptionInvoice = "Retainer / Subscription Invoice"
     MinimalMonochrome = "Minimal Monochrome"
     BoldRightLogoLayout = "Bold Right-Logo Layout"
-
-
-class DiscountType(StrEnum):
-    Percentage = "percentage"
-    Fixed = "fixed"

@@ -1,8 +1,12 @@
 from decimal import Decimal
+from enum import StrEnum
 
 from pydantic import BaseModel, Field, model_validator
 
-from .enums import DiscountType
+
+class DiscountType(StrEnum):
+    Percentage = "percentage"
+    Fixed = "fixed"
 
 
 class _SendEmailRequest(BaseModel):
