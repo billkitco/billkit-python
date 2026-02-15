@@ -12,4 +12,4 @@ class InvoiceBatchRecord(BaseModel):
 
 
 class InvoiceBatchStatusResponse(_BaseBatchStatusResponse):
-    records: list[InvoiceBatchRecord]
+    records: list[InvoiceBatchRecord] | None

@@ -69,9 +69,9 @@ class _BaseBatchStatusResponse(BaseModel):
     status: str
     entity_type: str
     source: str
+    total_count: int | None
+    imported_count: int | None
     error: Any | None = None
-    total_count: int
-    imported_count: int
     created_at: datetime = Field(..., alias="created_at")
     updated_at: datetime = Field(..., alias="updated_at")
 

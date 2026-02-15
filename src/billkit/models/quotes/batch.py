@@ -12,4 +12,4 @@ class QuoteBatchRecord(BaseModel):
 
 
 class QuoteBatchStatusResponse(_BaseBatchStatusResponse):
-    records: list[QuoteBatchRecord]
+    records: list[QuoteBatchRecord] | None
