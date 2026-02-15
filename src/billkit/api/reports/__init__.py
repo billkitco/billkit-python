@@ -9,7 +9,9 @@ class Reports:
 
     def get_revenue(self, currency: str | None = None) -> RevenueReportResponse:
         """
-        Fetch the current user's revenue for a given currency. If no currency is passed as a param,
+        Fetch the current user's revenue for a given currency.
+        If no currency is passed as a param, the saved default current
+        from the authenticated user's account is used
         Returns:
             RevenueReportResponse: The authenticated user's revenue report.
 
