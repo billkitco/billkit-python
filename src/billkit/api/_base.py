@@ -45,9 +45,12 @@ class _BaseDocuments(ABC):
         file_ids: list[str] | None = None,
     ) -> Any: ...
 
-    @abstractmethod
     def get_batch_status(
         self,
         job_id: str,
-    ) -> Any:
-        """Fetch status of a batch job"""
+    ):
+        response_data: dict[str, Any] = self._requester(
+            "GET",
+            f"batch/jobs/{job_id}",
+        )
+        return response_data
