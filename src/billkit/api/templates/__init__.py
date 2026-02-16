@@ -5,6 +5,8 @@ from ...models.templates import (
     CreateCustomTemplateResponse,
     DeleteCustomTemplateResponse,
     TemplatesListResponse,
+    UpdateCustomTemplateRequest,
+    UpdateCustomTemplateResponse,
 )
 
 
@@ -32,6 +34,24 @@ class Templates:
 
         response_data = self._requester("POST", "templates", json=payload.model_dump())
         return CreateCustomTemplateResponse(**response_data)
+
+    def update(
+        self,
+        template_id: str,
+        *,
+        template_name: str | None = None,
+        html: str | None = None,
+        validate: bool = True,
+    ) -> UpdateCustomTemplateResponse:
+        payload = UpdateCustomTemplateRequest(name=template_name, html=html)
+
+        if validate:
+            payload.validate_html()
+
+        response_data = self._requester(
+            "PATCH", f"templates/{template_id}", json=payload.model_dump()
+        )
+        return UpdateCustomTemplateResponse(**response_data)
 
     def delete(self, template_id: str) -> DeleteCustomTemplateResponse:
         """
