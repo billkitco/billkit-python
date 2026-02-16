@@ -1,6 +1,10 @@
 from collections.abc import Callable
 
-from ...models.templates import TemplatesListResponse
+from ...models.templates import (
+    CreateCustomTemplateRequest,
+    CreateCustomTemplateResponse,
+    TemplatesListResponse,
+)
 
 
 class Templates:
@@ -12,4 +16,13 @@ class Templates:
         Returns all template names including custom html templates.
         These are to be used in create and batch create payloads in the invoice_style/quote_style fields.
         """
+        # return self._requester("GET", "templates/all")
         return TemplatesListResponse(**self._requester("GET", "templates/all"))
+
+    def create(self, template_name: str, *, html: str) -> CreateCustomTemplateResponse:
+        """
+        Create a custom template with HTML.
+        """
+        payload = CreateCustomTemplateRequest(name=template_name, html=html)
+        response_data = self._requester("POST", "templates", json=payload.model_dump())
+        return CreateCustomTemplateResponse(**response_data)
