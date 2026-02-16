@@ -28,3 +28,9 @@ class CreateCustomTemplateResponse(BaseModel):
     name: str
     """Template name"""
     created_at: str
+
+
+class DeleteCustomTemplateResponse(BaseModel):
+    id: str
+    """UUID4 string"""
+    deleted: bool
