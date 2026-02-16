@@ -19,11 +19,17 @@ class Templates:
         """
         return TemplatesListResponse(**self._requester("GET", "templates/all"))
 
-    def create(self, template_name: str, *, html: str) -> CreateCustomTemplateResponse:
+    def create(
+        self, template_name: str, *, html: str, validate: bool = True
+    ) -> CreateCustomTemplateResponse:
         """
         Create a custom template with HTML.
         """
         payload = CreateCustomTemplateRequest(name=template_name, html=html)
+
+        if validate:
+            payload.validate_html()
+
         response_data = self._requester("POST", "templates", json=payload.model_dump())
         return CreateCustomTemplateResponse(**response_data)
 
