@@ -6,6 +6,7 @@ from ._settings import get_settings
 from .api.invoices import Invoices
 from .api.quotes import Quotes
 from .api.reports import Reports
+from .api.templates import Templates
 from .api.users import Users
 
 
@@ -42,6 +43,7 @@ class BillkitClient:
         self.reports = Reports(self._request)
         self.invoices = Invoices(self._request)
         self.quotes = Quotes(self._request)
+        self.templates = Templates(self._request)
 
     def _request(self, method: str, endpoint: str, **kwargs: Any) -> Any:
         """Internal proxy to backend API endpoints."""
