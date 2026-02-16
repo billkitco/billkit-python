@@ -24,6 +24,7 @@ class Quotes(_BaseDocuments):
 
     def send_email(
         self,
+        *,
         to: list[str],
         subject: str,
         body: str = "",

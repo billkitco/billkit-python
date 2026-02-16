@@ -22,7 +22,7 @@ class Invoices(_BaseDocuments):
         super().__init__(requester)
 
     def update_status(
-        self, file_id: str, invoice_status: InvoiceStatus
+        self, file_id: str, *, invoice_status: InvoiceStatus
     ) -> InvoiceStatusUpdateResponse:
         if invoice_status not in get_args(InvoiceStatus):
             raise ValueError(f"invoice_status must be either {get_args(InvoiceStatus)}")
@@ -43,6 +43,7 @@ class Invoices(_BaseDocuments):
 
     def send_email(
         self,
+        *,
         to: list[str],
         subject: str,
         body: str = "",
