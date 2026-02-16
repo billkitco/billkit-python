@@ -6,6 +6,7 @@ from .batch import (
 from .delete import InvoiceDeleteResponse
 from .email import InvoiceSendEmailRequest, InvoiceSendEmailResponse
 from .status import InvoiceStatusUpdateRequest, InvoiceStatusUpdateResponse
+from .types import InvoiceStatus
 
 __all__: list[str] = [
     "InvoiceBatchResponse",
@@ -16,4 +17,5 @@ __all__: list[str] = [
     "InvoiceSendEmailResponse",
     "InvoiceBatchRecord",
     "InvoiceBatchStatusResponse",
+    "InvoiceStatus",
 ]

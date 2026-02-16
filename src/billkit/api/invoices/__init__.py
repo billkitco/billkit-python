@@ -1,6 +1,6 @@
 import os
 from collections.abc import Callable
-from typing import Any, Literal
+from typing import Any, get_args
 
 from typing_extensions import override
 
@@ -10,6 +10,7 @@ from ...models.invoices import (
     InvoiceDeleteResponse,
     InvoiceSendEmailRequest,
     InvoiceSendEmailResponse,
+    InvoiceStatus,
     InvoiceStatusUpdateRequest,
     InvoiceStatusUpdateResponse,
 )
@@ -21,10 +22,10 @@ class Invoices(_BaseDocuments):
         super().__init__(requester)
 
     def update_status(
-        self, file_id: str, invoice_status: Literal["not_paid", "paid"]
+        self, file_id: str, invoice_status: InvoiceStatus
     ) -> InvoiceStatusUpdateResponse:
-        if invoice_status not in ("not_paid", "paid"):
-            raise ValueError("invoice_status must be either 'not_paid' or 'paid'")
+        if invoice_status not in get_args(InvoiceStatus):
+            raise ValueError(f"invoice_status must be either {get_args(InvoiceStatus)}")
 
         payload: InvoiceStatusUpdateRequest = InvoiceStatusUpdateRequest(
             file_id=file_id,
