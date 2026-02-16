@@ -4,6 +4,15 @@ Official Python SDK for [BillKit](https://billkit.co)—invoice and quote genera
 
 [![PyPI](https://badge.fury.io/py/billkit.svg)](https://pypi.org/project/billkit/)
 
+## Why BillKit Python?
+
+- **Fully typed** — Full type hints and mypy-checked; great IDE support and fewer runtime surprises.
+- **Pydantic models** — Request/response validation and serialisation out of the box.
+- **Modern stack** — Python 3.11+, [httpx](https://www.python-httpx.org/) as a fully featured HTTP client (requests-style API, connection pooling, timeouts).
+- **Simple API** — Resource-based client (`client.invoices`, `client.quotes`, templates, reports, users) with clear return types.
+- **Batch workflows** — Create invoices or quotes from CSV or JSON in one call.
+- **MIT licensed** — Use it in any project, commercial or open source.
+
 ## Installation
 ```bash
 pip install billkit
