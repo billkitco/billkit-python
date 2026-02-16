@@ -16,7 +16,6 @@ class Templates:
         Returns all template names including custom html templates.
         These are to be used in create and batch create payloads in the invoice_style/quote_style fields.
         """
-        # return self._requester("GET", "templates/all")
         return TemplatesListResponse(**self._requester("GET", "templates/all"))
 
     def create(self, template_name: str, *, html: str) -> CreateCustomTemplateResponse:
