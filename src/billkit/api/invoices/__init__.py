@@ -1,6 +1,6 @@
 import os
 from collections.abc import Callable
-from typing import Any, get_args
+from typing import Any, List, get_args
 
 from typing_extensions import override
 
@@ -8,6 +8,7 @@ from ...models.invoices import (
     InvoiceBatchResponse,
     InvoiceBatchStatusResponse,
     InvoiceDeleteResponse,
+    InvoiceDocumentResponse,
     InvoiceSendEmailRequest,
     InvoiceSendEmailResponse,
     InvoiceStatus,
@@ -90,3 +91,11 @@ class Invoices(_BaseDocuments):
         return InvoiceBatchResponse(
             **self._requester("POST", "batch/invoices/json", json=data)
         )
+
+    def list(
+        self, *, limit: int = 50, offset: int = 0
+    ) -> List[InvoiceDocumentResponse]:
+        response_data = self._requester(
+            "GET", "invoices", params={"limit": limit, "offset": offset}
+        )
+        return [InvoiceDocumentResponse.model_validate(item) for item in response_data]

@@ -5,10 +5,11 @@ from .batch import (
 )
 from .delete import InvoiceDeleteResponse
 from .email import InvoiceSendEmailRequest, InvoiceSendEmailResponse
+from .list import InvoiceDocumentResponse
 from .status import InvoiceStatusUpdateRequest, InvoiceStatusUpdateResponse
 from .types import InvoiceStatus
 
-__all__: list[str] = [
+__all__ = [
     "InvoiceBatchResponse",
     "InvoiceDeleteResponse",
     "InvoiceStatusUpdateRequest",
@@ -18,4 +19,5 @@ __all__: list[str] = [
     "InvoiceBatchRecord",
     "InvoiceBatchStatusResponse",
     "InvoiceStatus",
+    "InvoiceDocumentResponse",
 ]

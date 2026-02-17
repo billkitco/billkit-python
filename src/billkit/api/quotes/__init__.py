@@ -71,3 +71,5 @@ class Quotes(_BaseDocuments):
         return QuoteBatchResponse(
             **self._requester("POST", "batch/quotes/json", json=data)
         )
+
+    def list(self): ...

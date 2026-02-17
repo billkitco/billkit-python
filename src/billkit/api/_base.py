@@ -1,7 +1,7 @@
 import os
 from abc import ABC, abstractmethod
 from collections.abc import Callable
-from typing import Any
+from typing import Any, List
 
 
 class _BaseDocuments(ABC):
@@ -11,8 +11,8 @@ class _BaseDocuments(ABC):
     # @abstractmethod
     # def create(self): ...
 
-    # @abstractmethod
-    # def list(self): ...
+    @abstractmethod
+    def list(self, *, limit: int, offset: int) -> Any: ...
 
     # @abstractmethod
     # def record(self): ...
@@ -38,11 +38,11 @@ class _BaseDocuments(ABC):
     def send_email(
         self,
         *,
-        to: list[str],
+        to: List[str],
         subject: str,
         body: str,
         from_email: str | None = None,
-        file_ids: list[str] | None = None,
+        file_ids: List[str] | None = None,
     ) -> Any: ...
 
     def get_batch_status(

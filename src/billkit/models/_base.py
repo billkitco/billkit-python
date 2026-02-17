@@ -76,3 +76,9 @@ class _BaseBatchStatusResponse(BaseModel):
     updated_at: datetime = Field(..., alias="updated_at")
 
     model_config = {"populate_by_name": True}
+
+
+class _BaseDocumentResponse(BaseModel):
+    file_id: str
+    created_at: str
+    client_name: str
