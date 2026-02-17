@@ -1,6 +1,6 @@
 import os
 from collections.abc import Callable
-from typing import Any
+from typing import Any, List
 
 from typing_extensions import override
 
@@ -8,6 +8,7 @@ from ...models.quotes import (
     QuoteBatchResponse,
     QuoteBatchStatusResponse,
     QuoteDeleteResponse,
+    QuoteDocumentResponse,
     QuoteSendEmailRequest,
     QuoteSendEmailResponse,
 )
@@ -72,4 +73,8 @@ class Quotes(_BaseDocuments):
             **self._requester("POST", "batch/quotes/json", json=data)
         )
 
-    def list(self): ...
+    def list(self, *, limit: int = 50, offset: int = 0) -> List[QuoteDocumentResponse]:
+        response_data = self._requester(
+            "GET", "quotes", params={"limit": limit, "offset": offset}
+        )
+        return [QuoteDocumentResponse(**item) for item in response_data]

@@ -2,8 +2,9 @@ from .batch import QuoteBatchRecord, QuoteBatchResponse, QuoteBatchStatusRespons
 from .create import QuoteHeader, QuoteItem
 from .delete import QuoteDeleteResponse
 from .email import QuoteSendEmailRequest, QuoteSendEmailResponse
+from .list import QuoteDocumentResponse
 
-__all__: list[str] = [
+__all__ = [
     "QuoteDeleteResponse",
     "QuoteSendEmailRequest",
     "QuoteSendEmailResponse",
@@ -12,4 +13,5 @@ __all__: list[str] = [
     "QuoteItem",
     "QuoteBatchRecord",
     "QuoteBatchStatusResponse",
+    "QuoteDocumentResponse",
 ]
