@@ -32,6 +32,20 @@ class _BatchResponse(BaseModel):
     webhook_url: str
 
 
+class TemplateWarning(BaseModel):
+    code: str
+    message: str
+    # Union of all unused/mismatched params (kept for backwards compatibility)
+    params: list[str] | None = None
+    template_id: str | None = Field(default=None, alias="templateId")
+    # New: extra request fields not used by the template
+    payload_params: list[str] | None = Field(default=None, alias="payloadParams")
+    # New: variables referenced in the template but not supplied in the payload
+    template_params: list[str] | None = Field(default=None, alias="templateParams")
+
+    model_config = {"populate_by_name": True}
+
+
 class _BaseItem(BaseModel):
     description: str = Field(..., min_length=1)
     qty: int = Field(..., gt=0)
