@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, model_validator, field_validator
+from pydantic import BaseModel, Field, field_validator, model_validator
 from typing_extensions import TypedDict
 
 
@@ -18,7 +18,7 @@ class TemplatesListResponse(BaseModel):
 
 
 class _BaseTemplateRequest(BaseModel):
-    @field_validator("html")
+    @field_validator("html", check_fields=False)
     @classmethod
     def validate_html(cls, v: str | None) -> str | None:
         """Validates HTML content: size, structure, Jinja balance, and required template vars."""

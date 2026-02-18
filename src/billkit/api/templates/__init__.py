@@ -30,7 +30,7 @@ class Templates:
         payload = CreateCustomTemplateRequest(name=template_name, html=html)
 
         if validate:
-            payload.validate_html()
+            payload.validate_html(html)
 
         response_data = self._requester("POST", "templates", json=payload.model_dump())
         return CreateCustomTemplateResponse(**response_data)
@@ -46,7 +46,7 @@ class Templates:
         payload = UpdateCustomTemplateRequest(name=template_name, html=html)
 
         if validate:
-            payload.validate_html()
+            payload.validate_html(html)
 
         response_data = self._requester(
             "PATCH", f"templates/{template_id}", json=payload.model_dump()
