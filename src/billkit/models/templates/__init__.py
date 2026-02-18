@@ -21,7 +21,7 @@ class _BaseTemplateRequest(BaseModel):
     @field_validator("html")
     @classmethod
     def validate_html(cls, v: str | None) -> str | None:
-        """Validates HTML content: size, structure, and Jinja balance."""
+        """Validates HTML content: size, structure, Jinja balance, and required template vars."""
         if v is None:
             return v
 
@@ -43,6 +43,21 @@ class _BaseTemplateRequest(BaseModel):
 
         if stripped.count("{%") != stripped.count("%}"):
             raise ValueError("Unbalanced {% %} template tags")
+
+        REQUIRED_TEMPLATE_VARS = (
+            "client_name",
+            "client_email",
+            "items",
+            "invoice_number",
+            "due_date",
+            "quote_number",
+        )
+        for name in REQUIRED_TEMPLATE_VARS:
+            if name not in v:
+                raise ValueError(
+                    f"Template must include Jinja2 variable for invoice and quote support: {name!r}. "
+                    "Required: client_name, client_email, items, invoice_number, due_date, quote_number."
+                )
 
         return v
 
