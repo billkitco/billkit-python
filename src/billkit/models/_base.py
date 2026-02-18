@@ -3,12 +3,12 @@ from decimal import Decimal
 from enum import StrEnum
 from typing import Any
 
-from pydantic import BaseModel, Field, model_validator
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 
 class DiscountType(StrEnum):
-    Percentage = "percentage"
-    Fixed = "fixed"
+    PERCENTAGE = "percentage"
+    FIXED = "fixed"
 
 
 class _SendEmailRequest(BaseModel):
@@ -54,28 +54,45 @@ class _BaseItem(BaseModel):
     discount_type: DiscountType | None = None
     discount_value: Decimal = Field(default=Decimal("0.00"), ge=0)
 
+    model_config = ConfigDict(
+        extra="allow",
+        json_encoders={Decimal: str},
+    )
+
     @model_validator(mode="after")
     def validate_discount(self) -> "_BaseItem":
         if self.discount_type is None:
             self.discount_value = Decimal("0.00")
             return self
-        if self.discount_type == DiscountType.Percentage and self.discount_value > 100:
+        if self.discount_type == DiscountType.PERCENTAGE and self.discount_value > 100:
             raise ValueError("Percentage discount must be 100 or less")
         return self
 
 
-class _BaseHeader(BaseModel):
+class _BaseCreatePayload(BaseModel):
     client_name: str
     client_email: str
-    client_address: str
-    invoice_number: str
-    reference_number: str
-    po_number: str
-    invoice_date: str
-    due_date: datetime
-    currency_code: str | None = None
-    currency_symbol: str | None = None
-    invoice_type: str | None = None
+    upload_to_s3: bool = True
+
+    client_address: str | None = None
+    currency_code: str = "GBP"
+    style: str = "Classic Left Logo"
+
+    reference_number: str | None = None
+
+    from_name: str | None = None
+    from_email: str | None = None
+    from_address: str | None = None
+
+    notes: str | None = None
+    terms: str | None = None
+
+    discount_type: DiscountType | None = None
+    discount_value: float = 0
+    """If discount_type is DiscountType.PERCENTAGE, you should use 50 for 50% instead of 0.5"""
+
+    # **kwargs catch-all for advanced/less-common fields
+    model_config = {"extra": "allow"}
 
 
 class _BaseBatchStatusResponse(BaseModel):

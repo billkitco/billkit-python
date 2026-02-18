@@ -1,14 +1,18 @@
 import os
 from collections.abc import Callable
-from typing import Any, List, get_args
+from io import BytesIO
+from collections.abc import Sequence
+from typing import Any, get_args
 
 from typing_extensions import override
 
 from ...models.invoices import (
     InvoiceBatchResponse,
     InvoiceBatchStatusResponse,
+    InvoiceCreatePayload,
     InvoiceDeleteResponse,
     InvoiceDocumentResponse,
+    InvoiceItem,
     InvoiceSendEmailRequest,
     InvoiceSendEmailResponse,
     InvoiceStatus,
@@ -21,6 +25,35 @@ from .._base import _BaseDocuments
 class Invoices(_BaseDocuments):
     def __init__(self, requester: Callable) -> None:
         super().__init__(requester)
+
+    @override
+    def create(
+        self,
+        *,
+        client_name: str,
+        client_email: str,
+        items: Sequence[InvoiceItem],
+        invoice_number: str,
+        due_date: str,
+        save_to_cloud: bool = True,
+        **kwargs,
+    ) -> bytes:
+        payload_dict: Any = dict(
+            client_name=client_name,
+            client_email=client_email,
+            items=[item.model_dump(mode="json", exclude_unset=True) for item in items],
+            invoice_number=invoice_number,
+            upload_to_s3=save_to_cloud,
+            due_date=due_date,
+            **kwargs,
+        )
+        payload = InvoiceCreatePayload(**payload_dict)
+        response_data: bytes = self._requester(
+            "POST",
+            "invoices/generate",
+            json=payload.model_dump(mode="json", exclude_unset=True),
+        )
+        return response_data
 
     def update_status(
         self, file_id: str, *, invoice_status: InvoiceStatus
@@ -94,7 +127,7 @@ class Invoices(_BaseDocuments):
 
     def list(
         self, *, limit: int = 50, offset: int = 0
-    ) -> List[InvoiceDocumentResponse]:
+    ) -> list[InvoiceDocumentResponse]:
         response_data = self._requester(
             "GET", "invoices", params={"limit": limit, "offset": offset}
         )

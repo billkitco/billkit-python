@@ -3,6 +3,7 @@ from .batch import (
     InvoiceBatchResponse,
     InvoiceBatchStatusResponse,
 )
+from .create import InvoiceCreatePayload, InvoiceItem
 from .delete import InvoiceDeleteResponse
 from .email import InvoiceSendEmailRequest, InvoiceSendEmailResponse
 from .list import InvoiceDocumentResponse
@@ -11,6 +12,8 @@ from .types import InvoiceStatus
 
 __all__ = [
     "InvoiceBatchResponse",
+    "InvoiceCreatePayload",
+    "InvoiceItem",
     "InvoiceDeleteResponse",
     "InvoiceStatusUpdateRequest",
     "InvoiceStatusUpdateResponse",

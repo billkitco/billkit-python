@@ -1,15 +1,24 @@
 import os
 from abc import ABC, abstractmethod
 from collections.abc import Callable
-from typing import Any, List
+from typing import Any, List, Sequence
+
+from ..models._base import _BaseItem
 
 
 class _BaseDocuments(ABC):
     def __init__(self, requester: Callable) -> None:
         self._requester = requester
 
-    # @abstractmethod
-    # def create(self): ...
+    def create(
+        self,
+        *,
+        client_name: str,
+        client_email: str,
+        items: Sequence[_BaseItem],
+        save_to_cloud: bool = True,
+        **kwargs,
+    ) -> Any: ...
 
     @abstractmethod
     def list(self, *, limit: int, offset: int) -> Any: ...

@@ -1,7 +1,4 @@
-from .._base import _BaseHeader, _BaseItem
+from .._base import _BaseItem
 
 
 class QuoteItem(_BaseItem): ...
-
-
-class QuoteHeader(_BaseHeader): ...

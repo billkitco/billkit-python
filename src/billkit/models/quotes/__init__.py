@@ -1,5 +1,5 @@
 from .batch import QuoteBatchRecord, QuoteBatchResponse, QuoteBatchStatusResponse
-from .create import QuoteHeader, QuoteItem
+from .create import QuoteItem
 from .delete import QuoteDeleteResponse
 from .email import QuoteSendEmailRequest, QuoteSendEmailResponse
 from .list import QuoteDocumentResponse
@@ -9,7 +9,6 @@ __all__ = [
     "QuoteSendEmailRequest",
     "QuoteSendEmailResponse",
     "QuoteBatchResponse",
-    "QuoteHeader",
     "QuoteItem",
     "QuoteBatchRecord",
     "QuoteBatchStatusResponse",
