@@ -3,6 +3,7 @@ from typing import Any
 import httpx
 
 from ._settings import get_settings
+from .exceptions import BillKitException
 from .api.invoices import Invoices
 from .api.quotes import Quotes
 from .api.reports import Reports
@@ -48,8 +49,22 @@ class BillkitClient:
     def _request(self, method: str, endpoint: str, **kwargs: Any) -> Any:
         """Internal proxy to backend API endpoints."""
         url: str = f"{self.base_url}/{endpoint.lstrip('/')}"
-        resp: httpx.Response = self._client.request(method, url, **kwargs)
-        resp.raise_for_status()
+        try:
+            resp: httpx.Response = self._client.request(method, url, **kwargs)
+            resp.raise_for_status()
+        except httpx.HTTPStatusError as e:
+            body: str | dict | None = None
+            try:
+                body = e.response.json()
+            except ValueError:
+                body = e.response.text
+            raise BillKitException(
+                str(e),
+                status_code=e.response.status_code,
+                response_body=body,
+            ) from e
+        except httpx.RequestError as e:
+            raise BillKitException(str(e)) from e
         try:
             return resp.json()
         except ValueError:
