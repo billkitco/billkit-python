@@ -1,6 +1,6 @@
 import os
 from collections.abc import Callable
-from typing import Any, List
+from typing import Any
 
 from typing_extensions import override
 
@@ -16,7 +16,7 @@ from .._base import _BaseDocuments
 
 
 class Quotes(_BaseDocuments):
-    def __init__(self, requester: Callable) -> None:
+    def __init__(self, requester: Callable[..., Any]) -> None:
         super().__init__(requester)
 
     def delete(self, file_id: str) -> QuoteDeleteResponse:
@@ -73,7 +73,7 @@ class Quotes(_BaseDocuments):
             **self._requester("POST", "batch/quotes/json", json=data)
         )
 
-    def list(self, *, limit: int = 50, offset: int = 0) -> List[QuoteDocumentResponse]:
+    def list(self, *, limit: int = 50, offset: int = 0) -> list[QuoteDocumentResponse]:
         response_data = self._requester(
             "GET", "quotes", params={"limit": limit, "offset": offset}
         )

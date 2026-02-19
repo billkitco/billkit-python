@@ -1,7 +1,6 @@
 import os
-from collections.abc import Callable
+from collections.abc import Callable, Sequence
 from io import BytesIO
-from collections.abc import Sequence
 from typing import Any, get_args
 
 from typing_extensions import override
@@ -23,7 +22,7 @@ from .._base import _BaseDocuments
 
 
 class Invoices(_BaseDocuments):
-    def __init__(self, requester: Callable) -> None:
+    def __init__(self, requester: Callable[..., Any]) -> None:
         super().__init__(requester)
 
     @override
@@ -36,7 +35,7 @@ class Invoices(_BaseDocuments):
         invoice_number: str,
         due_date: str,
         save_to_cloud: bool = True,
-        **kwargs,
+        **kwargs: Any,
     ) -> bytes:
         payload_dict: Any = dict(
             client_name=client_name,
