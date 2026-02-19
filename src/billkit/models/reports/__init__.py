@@ -1,4 +1,6 @@
+from collections.abc import Sequence
 from decimal import Decimal
+
 from pydantic import BaseModel, ConfigDict, Field
 from pydantic.alias_generators import to_camel
 
@@ -46,10 +48,10 @@ class Currency(BaseModel):
 class ByPeriod(BaseModel):
     model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
 
-    daily: list[PeriodItem] = Field(..., alias="daily")
-    weekly: list[PeriodItem] = Field(..., alias="weekly")
-    monthly: list[PeriodItem] = Field(..., alias="monthly")
-    yearly: list[PeriodItem] = Field(..., alias="yearly")
+    daily: Sequence[PeriodItem] = Field(..., alias="daily")
+    weekly: Sequence[PeriodItem] = Field(..., alias="weekly")
+    monthly: Sequence[PeriodItem] = Field(..., alias="monthly")
+    yearly: Sequence[PeriodItem] = Field(..., alias="yearly")
 
 
 class RevenueReportResponse(BaseModel):
@@ -59,9 +61,9 @@ class RevenueReportResponse(BaseModel):
     currency_symbol: str = Field(..., alias="currencySymbol")
     summary: Summary
     by_period: ByPeriod = Field(..., alias="byPeriod")
-    by_client: list[ByClientItem] = Field(..., alias="byClient")
-    by_status: list[ByStatusItem] = Field(..., alias="byStatus")
-    available_currencies: list[Currency] = Field(..., alias="availableCurrencies")
+    by_client: Sequence[ByClientItem] = Field(..., alias="byClient")
+    by_status: Sequence[ByStatusItem] = Field(..., alias="byStatus")
+    available_currencies: Sequence[Currency] = Field(..., alias="availableCurrencies")
     """
-    This is a list of currencies used in the saved created invoices.
+    This is a Sequence of currencies used in the saved created invoices.
     """

@@ -1,3 +1,5 @@
+from collections.abc import Sequence
+
 from pydantic import BaseModel, Field, field_validator, model_validator
 from typing_extensions import TypedDict
 
@@ -13,8 +15,8 @@ class _BuiltinTemplate(TypedDict):
 
 
 class TemplatesListResponse(BaseModel):
-    default: list[_BuiltinTemplate]
-    custom: list[_CustomTemplate]
+    default: Sequence[_BuiltinTemplate]
+    custom: Sequence[_CustomTemplate]
 
 
 class _BaseTemplateRequest(BaseModel):

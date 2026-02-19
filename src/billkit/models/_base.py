@@ -1,3 +1,4 @@
+from collections.abc import Sequence
 from datetime import datetime
 from decimal import Decimal
 from enum import StrEnum
@@ -12,11 +13,11 @@ class DiscountType(StrEnum):
 
 
 class _SendEmailRequest(BaseModel):
-    to: list[str]
+    to: Sequence[str]
     subject: str
     body: str
     from_email: str | None
-    file_ids: list[str] | None
+    file_ids: Sequence[str] | None
 
 
 class _SendEmailResponse(BaseModel):
@@ -36,12 +37,12 @@ class TemplateWarning(BaseModel):
     code: str
     message: str
     # Union of all unused/mismatched params (kept for backwards compatibility)
-    params: list[str] | None = None
+    params: Sequence[str] | None = None
     template_id: str | None = Field(default=None, alias="templateId")
     # New: extra request fields not used by the template
-    payload_params: list[str] | None = Field(default=None, alias="payloadParams")
+    payload_params: Sequence[str] | None = Field(default=None, alias="payloadParams")
     # New: variables referenced in the template but not supplied in the payload
-    template_params: list[str] | None = Field(default=None, alias="templateParams")
+    template_params: Sequence[str] | None = Field(default=None, alias="templateParams")
 
     model_config = {"populate_by_name": True}
 

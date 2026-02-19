@@ -1,7 +1,7 @@
 import os
 from abc import ABC, abstractmethod
-from collections.abc import Callable
-from typing import Any, List, Sequence
+from collections.abc import Callable, Sequence
+from typing import Any
 
 from ..models._base import _BaseItem
 
@@ -19,9 +19,6 @@ class _BaseDocuments(ABC):
         save_to_cloud: bool = True,
         **kwargs: Any,
     ) -> bytes: ...
-
-    @abstractmethod
-    def list(self, *, limit: int, offset: int) -> Any: ...
 
     # @abstractmethod
     # def record(self): ...
@@ -47,11 +44,11 @@ class _BaseDocuments(ABC):
     def send_email(
         self,
         *,
-        to: List[str],
+        to: Sequence[str],
         subject: str,
         body: str,
         from_email: str | None = None,
-        file_ids: List[str] | None = None,
+        file_ids: Sequence[str] | None = None,
     ) -> Any: ...
 
     def get_batch_status(
@@ -63,3 +60,6 @@ class _BaseDocuments(ABC):
             f"batch/jobs/{job_id}",
         )
         return response_data
+
+    @abstractmethod
+    def list(self, *, limit: int, offset: int) -> Sequence[Any]: ...

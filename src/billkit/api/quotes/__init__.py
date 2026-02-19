@@ -57,11 +57,11 @@ class Quotes(_BaseDocuments):
     def send_email(
         self,
         *,
-        to: list[str],
+        to: Sequence[str],
         subject: str,
         body: str = "",
         from_email: str | None = None,
-        file_ids: list[str] | None = None,
+        file_ids: Sequence[str] | None = None,
     ) -> QuoteSendEmailResponse:
         payload = QuoteSendEmailRequest(
             to=to,
@@ -104,7 +104,9 @@ class Quotes(_BaseDocuments):
             **self._requester("POST", "batch/quotes/json", json=data)
         )
 
-    def list(self, *, limit: int = 50, offset: int = 0) -> list[QuoteDocumentResponse]:
+    def list(
+        self, *, limit: int = 50, offset: int = 0
+    ) -> Sequence[QuoteDocumentResponse]:
         response_data = self._requester(
             "GET", "quotes", params={"limit": limit, "offset": offset}
         )

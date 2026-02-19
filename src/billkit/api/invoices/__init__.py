@@ -79,11 +79,11 @@ class Invoices(_BaseDocuments):
     def send_email(
         self,
         *,
-        to: list[str],
+        to: Sequence[str],
         subject: str,
         body: str = "",
         from_email: str | None = None,
-        file_ids: list[str] | None = None,
+        file_ids: Sequence[str] | None = None,
     ) -> InvoiceSendEmailResponse:
         payload = InvoiceSendEmailRequest(
             to=to,
@@ -128,7 +128,7 @@ class Invoices(_BaseDocuments):
 
     def list(
         self, *, limit: int = 50, offset: int = 0
-    ) -> list[InvoiceDocumentResponse]:
+    ) -> Sequence[InvoiceDocumentResponse]:
         response_data = self._requester(
             "GET", "invoices", params={"limit": limit, "offset": offset}
         )
