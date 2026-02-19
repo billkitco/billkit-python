@@ -37,6 +37,9 @@ Repository = "https://github.com/billkitco/billkit-python"
 [tool.setuptools.packages.find]
 where = ["src"]
 
+[tool.setuptools.package-data]
+billkit = ["py.typed"]
+
 [tool.setuptools_scm]
 write_to = "src/billkit/_version.py"
 version_scheme = "guess-next-dev"
