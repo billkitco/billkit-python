@@ -34,6 +34,7 @@ class Invoices(_BaseDocuments):
         items: Sequence[InvoiceItem],
         invoice_number: str,
         due_date: str,
+        invoice_date: str | None = None,
         save_to_cloud: bool = True,
         **kwargs: Any,
     ) -> bytes:
@@ -42,6 +43,7 @@ class Invoices(_BaseDocuments):
             client_email=client_email,
             items=[item.model_dump(mode="json", exclude_unset=True) for item in items],
             invoice_number=invoice_number,
+            invoice_date=invoice_date,
             upload_to_s3=save_to_cloud,
             due_date=due_date,
             **kwargs,

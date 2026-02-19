@@ -9,3 +9,4 @@ class InvoiceCreatePayload(_BaseCreatePayload):
     invoice_number: str
     due_date: str
     items: list[InvoiceItem]
+    invoice_date: str | None = None
