@@ -11,13 +11,13 @@ from .api.users import Users
 from .exceptions import BillKitException
 
 
-class BillkitClient:
+class BillKitClient:
     """
-    client for Billkitco invoicing API.
+    client for BillKitco invoicing API.
 
     Usage:
-        client = BillkitClient()  # Uses BILLKIT_SECRET_KEY and BASE_URL env vars
-        client = BillkitClient(api_key="sk_...", base_url="https://api.billkit.co/v1")  # Or pass in your own API key and base URL
+        client = BillKitClient()  # Uses BILLKIT_SECRET_KEY and BASE_URL env vars
+        client = BillKitClient(api_key="sk_...", base_url="https://api.billkit.co/v1")  # Or pass in your own API key and base URL
     """
 
     def __init__(self, api_key: str | None = None, base_url: str | None = None) -> None:
@@ -29,7 +29,7 @@ class BillkitClient:
             base_url = settings.base_url
         if not api_key:
             raise ValueError(
-                "API key required. Pass to BillkitClient(api_key='sk_...') "
+                "API key required. Pass to BillKitClient(api_key='sk_...') "
                 "or set BILLKIT_SECRET_KEY environment variable."
             )
 
@@ -65,7 +65,9 @@ class BillkitClient:
             ) from e
         except httpx.RequestError as e:
             raise BillKitException(str(e)) from e
-        content_type = (resp.headers.get("content-type") or "").lower().split(";")[0].strip()
+        content_type = (
+            (resp.headers.get("content-type") or "").lower().split(";")[0].strip()
+        )
         if content_type == "application/pdf":
             return resp.content
         try:
