@@ -1,5 +1,6 @@
 import os
 from collections.abc import Callable, Sequence
+from io import BytesIO
 from typing import Any
 
 from typing_extensions import override
@@ -36,7 +37,7 @@ class Quotes(_BaseDocuments):
         quote_date: str | None = None,
         save_to_cloud: bool = True,
         **kwargs: Any,
-    ) -> bytes:
+    ) -> BytesIO:
         payload_dict: Any = dict(
             client_name=client_name,
             client_email=client_email,
@@ -52,7 +53,7 @@ class Quotes(_BaseDocuments):
             "quotes/generate",
             json=payload.model_dump(mode="json", exclude_unset=True),
         )
-        return response_data
+        return BytesIO(initial_bytes=response_data)
 
     def send_email(
         self,

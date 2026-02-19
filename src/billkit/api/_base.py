@@ -1,9 +1,12 @@
 import os
 from abc import ABC, abstractmethod
 from collections.abc import Callable, Sequence
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from ..models._base import _BaseItem
+
+if TYPE_CHECKING:
+    from io import BytesIO
 
 
 class _BaseDocuments(ABC):
@@ -18,7 +21,7 @@ class _BaseDocuments(ABC):
         items: Sequence[_BaseItem],
         save_to_cloud: bool = True,
         **kwargs: Any,
-    ) -> bytes: ...
+    ) -> "BytesIO": ...
 
     # @abstractmethod
     # def record(self): ...

@@ -37,7 +37,7 @@ class Invoices(_BaseDocuments):
         invoice_date: str | None = None,
         save_to_cloud: bool = True,
         **kwargs: Any,
-    ) -> bytes:
+    ) -> BytesIO:
         payload_dict: Any = dict(
             client_name=client_name,
             client_email=client_email,
@@ -54,7 +54,7 @@ class Invoices(_BaseDocuments):
             "invoices/generate",
             json=payload.model_dump(mode="json", exclude_unset=True),
         )
-        return response_data
+        return BytesIO(initial_bytes=response_data)
 
     def update_status(
         self, file_id: str, *, invoice_status: InvoiceStatus
