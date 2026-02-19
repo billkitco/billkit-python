@@ -11,9 +11,11 @@ from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 class PDFResponse(BytesIO):
     """
-    BytesIO subclass returned for PDF responses (e.g. from create).
-    Use as a file-like object for the PDF bytes; use .file_id for the
-    stored file identifier when upload_to_s3/save_to_cloud was True.
+    BytesIO subclass used for PDF responses created by the API.
+
+    Use as a file-like object for the PDF bytes; access `.file_id` to
+    retrieve the stored file identifier when the PDF has been uploaded
+    to external storage by the client.
     """
 
     file_id: str | None = None
@@ -23,6 +25,23 @@ class PDFResponse(BytesIO):
         self.file_id = file_id
 
     def save(self, file_path: os.PathLike[str] | str) -> None:
+        """
+        Save the in-memory PDF bytes to a local file path.
+
+        **Args:**
+            file_path (os.PathLike[str] | str): Destination path where the PDF
+                file will be written. If a file already exists at this path,
+                it will be overwritten.
+
+        **Raises:**
+            OSError: If the path is invalid or the file cannot be written.
+
+        **Usage example:**
+            ```python
+            pdf_response = client.invoices.create(...)
+            pdf_response.save("invoice.pdf")
+            ```
+        """
         self.seek(0)
         with open(file_path, "wb") as f:
             f.write(self.getvalue())
