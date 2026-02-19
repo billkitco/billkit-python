@@ -57,6 +57,9 @@ class _BaseDocuments(ABC, Generic[T]):
         file_ids: Sequence[str] | None = None,
     ) -> Any: ...
 
+    @abstractmethod
+    def download_pdf(self, file_id: str) -> "BytesIO": ...
+
     def get_batch_status(
         self,
         job_id: str,

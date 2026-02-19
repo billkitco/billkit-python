@@ -112,3 +112,9 @@ class Quotes(_BaseDocuments[QuoteItem]):
             "GET", "quotes", params={"limit": limit, "offset": offset}
         )
         return [QuoteDocumentResponse(**item) for item in response_data]
+
+    def download_pdf(self, file_id: str) -> BytesIO:
+        response_data: bytes = self._requester(
+            "GET", f"quotes/download?file_id={file_id}"
+        )
+        return BytesIO(initial_bytes=response_data)

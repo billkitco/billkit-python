@@ -133,3 +133,9 @@ class Invoices(_BaseDocuments[InvoiceItem]):
             "GET", "invoices", params={"limit": limit, "offset": offset}
         )
         return [InvoiceDocumentResponse.model_validate(item) for item in response_data]
+
+    def download_pdf(self, file_id: str) -> BytesIO:
+        response_data: bytes = self._requester(
+            "GET", f"invoices/download?file_id={file_id}"
+        )
+        return BytesIO(initial_bytes=response_data)
