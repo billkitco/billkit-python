@@ -57,13 +57,13 @@ class _BatchResponse(BaseModel):  # pyright: ignore[reportUnusedClass]
 class TemplateWarning(BaseModel):
     code: str
     message: str
-    # Union of all unused/mismatched params (kept for backwards compatibility)
     params: Sequence[str] | None = None
+    """Union of all unused/mismatched params (kept for backwards compatibility)"""
     template_id: str | None = Field(default=None, alias="templateId")
-    # New: extra request fields not used by the template
     payload_params: Sequence[str] | None = Field(default=None, alias="payloadParams")
-    # New: variables referenced in the template but not supplied in the payload
+    """extra request fields not used by the template"""
     template_params: Sequence[str] | None = Field(default=None, alias="templateParams")
+    """variables referenced in the template but not supplied in the payload"""
 
     model_config = {"populate_by_name": True}
 
@@ -113,8 +113,8 @@ class _BaseCreatePayload(BaseModel):  # pyright: ignore[reportUnusedClass]
     discount_value: float = 0
     """If discount_type is DiscountType.PERCENTAGE, you should use 50 for 50% instead of 0.5"""
 
-    # **kwargs catch-all for advanced/less-common fields
     model_config = {"extra": "allow"}
+    """**kwargs catch-all for advanced/less-common fields"""
 
 
 class _BaseBatchStatusResponse(BaseModel):  # pyright: ignore[reportUnusedClass]
