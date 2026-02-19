@@ -3,12 +3,12 @@ from typing import Any
 import httpx
 
 from ._settings import get_settings
-from .exceptions import BillKitException
 from .api.invoices import Invoices
 from .api.quotes import Quotes
 from .api.reports import Reports
 from .api.templates import Templates
 from .api.users import Users
+from .exceptions import BillKitException
 
 
 class BillkitClient:
@@ -53,7 +53,7 @@ class BillkitClient:
             resp: httpx.Response = self._client.request(method, url, **kwargs)
             resp.raise_for_status()
         except httpx.HTTPStatusError as e:
-            body: str | dict | None = None
+            body: str | dict[str, Any] | None = None
             try:
                 body = e.response.json()
             except ValueError:
