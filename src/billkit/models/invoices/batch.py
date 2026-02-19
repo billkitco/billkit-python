@@ -2,7 +2,11 @@ from collections.abc import Sequence
 
 from pydantic import BaseModel, Field
 
-from .._base import TemplateWarning, _BaseBatchStatusResponse, _BatchResponse
+from .._base import (
+    TemplateWarning,
+    _BaseBatchStatusResponse,  # pyright: ignore[reportPrivateUsage]
+    _BatchResponse,  # pyright: ignore[reportPrivateUsage]
+)
 
 
 class InvoiceBatchResponse(_BatchResponse): ...

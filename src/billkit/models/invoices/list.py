@@ -1,7 +1,7 @@
 from pydantic import model_validator
 from typing_extensions import get_args
 
-from .._base import _BaseDocumentResponse
+from .._base import _BaseDocumentResponse  # pyright: ignore[reportPrivateUsage]
 from .types import InvoiceStatus
 
 

@@ -1,7 +1,7 @@
 # from ..client import ClientDetails
 from collections.abc import Sequence
 
-from .._base import _BaseCreatePayload, _BaseItem
+from .._base import _BaseCreatePayload, _BaseItem  # pyright: ignore[reportPrivateUsage]
 
 
 class InvoiceItem(_BaseItem): ...

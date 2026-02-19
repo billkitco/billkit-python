@@ -1,4 +1,4 @@
-from .._base import _BaseDocumentResponse
+from .._base import _BaseDocumentResponse  # pyright: ignore[reportPrivateUsage]
 
 
 class QuoteDocumentResponse(_BaseDocumentResponse):

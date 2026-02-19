@@ -33,7 +33,7 @@ class DiscountType(StrEnum):
     FIXED = "fixed"
 
 
-class _SendEmailRequest(BaseModel):
+class _SendEmailRequest(BaseModel):  # pyright: ignore[reportUnusedClass]
     to: Sequence[str]
     subject: str
     body: str
@@ -41,14 +41,14 @@ class _SendEmailRequest(BaseModel):
     file_ids: Sequence[str] | None
 
 
-class _SendEmailResponse(BaseModel):
+class _SendEmailResponse(BaseModel):  # pyright: ignore[reportUnusedClass]
     success: bool
     message_id: str | None
     status_code: int
     detail: str | None
 
 
-class _BatchResponse(BaseModel):
+class _BatchResponse(BaseModel):  # pyright: ignore[reportUnusedClass]
     job_id: str
     status: str
     webhook_url: str
@@ -91,7 +91,7 @@ class _BaseItem(BaseModel):
         return self
 
 
-class _BaseCreatePayload(BaseModel):
+class _BaseCreatePayload(BaseModel):  # pyright: ignore[reportUnusedClass]
     client_name: str
     client_email: str
     upload_to_s3: bool = True
@@ -117,7 +117,7 @@ class _BaseCreatePayload(BaseModel):
     model_config = {"extra": "allow"}
 
 
-class _BaseBatchStatusResponse(BaseModel):
+class _BaseBatchStatusResponse(BaseModel):  # pyright: ignore[reportUnusedClass]
     job_id: str = Field(..., alias="job_id")
     status: str
     entity_type: str
@@ -131,7 +131,7 @@ class _BaseBatchStatusResponse(BaseModel):
     model_config = {"populate_by_name": True}
 
 
-class _BaseDocumentResponse(BaseModel):
+class _BaseDocumentResponse(BaseModel):  # pyright: ignore[reportUnusedClass]
     file_id: str
     created_at: str
     client_name: str
