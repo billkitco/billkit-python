@@ -1,24 +1,27 @@
 import os
 from abc import ABC, abstractmethod
 from collections.abc import Callable, Sequence
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Generic, TypeVar
 
 from ..models._base import _BaseItem
 
 if TYPE_CHECKING:
     from io import BytesIO
 
+T = TypeVar("T", bound="_BaseItem")
 
-class _BaseDocuments(ABC):
+
+class _BaseDocuments(ABC, Generic[T]):
     def __init__(self, requester: Callable[..., Any]) -> None:
         self._requester = requester
 
+    @abstractmethod
     def create(
         self,
         *,
         client_name: str,
         client_email: str,
-        items: Sequence[_BaseItem],
+        items: Sequence[T],
         save_to_cloud: bool = True,
         **kwargs: Any,
     ) -> "BytesIO": ...

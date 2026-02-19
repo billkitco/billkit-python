@@ -18,7 +18,7 @@ from ...models.quotes import (
 from .._base import _BaseDocuments
 
 
-class Quotes(_BaseDocuments):
+class Quotes(_BaseDocuments[QuoteItem]):
     def __init__(self, requester: Callable[..., Any]) -> None:
         super().__init__(requester)
 

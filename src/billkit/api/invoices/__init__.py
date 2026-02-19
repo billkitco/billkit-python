@@ -21,7 +21,7 @@ from ...models.invoices import (
 from .._base import _BaseDocuments
 
 
-class Invoices(_BaseDocuments):
+class Invoices(_BaseDocuments[InvoiceItem]):
     def __init__(self, requester: Callable[..., Any]) -> None:
         super().__init__(requester)
 
