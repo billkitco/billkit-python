@@ -1,5 +1,5 @@
 import os
-from collections.abc import Callable
+from collections.abc import Callable, Sequence
 from typing import Any
 
 from typing_extensions import override
@@ -7,8 +7,10 @@ from typing_extensions import override
 from ...models.quotes import (
     QuoteBatchResponse,
     QuoteBatchStatusResponse,
+    QuoteCreatePayload,
     QuoteDeleteResponse,
     QuoteDocumentResponse,
+    QuoteItem,
     QuoteSendEmailRequest,
     QuoteSendEmailResponse,
 )
@@ -22,6 +24,35 @@ class Quotes(_BaseDocuments):
     def delete(self, file_id: str) -> QuoteDeleteResponse:
         response_data = self._requester("DELETE", f"quotes?file_id={file_id}")
         return QuoteDeleteResponse(**response_data)
+
+    @override
+    def create(
+        self,
+        *,
+        client_name: str,
+        client_email: str,
+        items: Sequence[QuoteItem],
+        quote_number: str,
+        quote_date: str | None = None,
+        save_to_cloud: bool = True,
+        **kwargs: Any,
+    ) -> bytes:
+        payload_dict: Any = dict(
+            client_name=client_name,
+            client_email=client_email,
+            items=[item.model_dump(mode="json", exclude_unset=True) for item in items],
+            quote_number=quote_number,
+            quote_date=quote_date,
+            upload_to_s3=save_to_cloud,
+            **kwargs,
+        )
+        payload = QuoteCreatePayload(**payload_dict)
+        response_data: bytes = self._requester(
+            "POST",
+            "quotes/generate",
+            json=payload.model_dump(mode="json", exclude_unset=True),
+        )
+        return response_data
 
     def send_email(
         self,
