@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 from collections.abc import Callable, Sequence
 from typing import TYPE_CHECKING, Any, Generic, TypeVar
 
-from ..models._base import _BaseItem
+from ..models._base import _BaseItem  # pyright: ignore[reportPrivateUsage]
 
 if TYPE_CHECKING:
     from io import BytesIO
@@ -11,7 +11,7 @@ if TYPE_CHECKING:
 T = TypeVar("T", bound="_BaseItem")
 
 
-class _BaseDocuments(ABC, Generic[T]):
+class _BaseDocuments(ABC, Generic[T]):  # pyright: ignore[reportUnusedClass]
     def __init__(self, requester: Callable[..., Any]) -> None:
         self._requester = requester
 

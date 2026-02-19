@@ -1,10 +1,10 @@
 import os
 from collections.abc import Callable, Sequence
-from io import BytesIO
 from typing import Any
 
 from typing_extensions import override
 
+from ...models._base import PDFResponse
 from ...models.quotes import (
     QuoteBatchResponse,
     QuoteBatchStatusResponse,
@@ -15,7 +15,7 @@ from ...models.quotes import (
     QuoteSendEmailRequest,
     QuoteSendEmailResponse,
 )
-from .._base import _BaseDocuments
+from .._base import _BaseDocuments  # pyright: ignore[reportPrivateUsage]
 
 
 class Quotes(_BaseDocuments[QuoteItem]):
@@ -37,7 +37,7 @@ class Quotes(_BaseDocuments[QuoteItem]):
         quote_date: str | None = None,
         save_to_cloud: bool = True,
         **kwargs: Any,
-    ) -> BytesIO:
+    ) -> PDFResponse:
         payload_dict: Any = dict(
             client_name=client_name,
             client_email=client_email,
@@ -48,12 +48,12 @@ class Quotes(_BaseDocuments[QuoteItem]):
             **kwargs,
         )
         payload = QuoteCreatePayload(**payload_dict)
-        response_data: bytes = self._requester(
+        response_data: PDFResponse = self._requester(
             "POST",
             "quotes/generate",
             json=payload.model_dump(mode="json", exclude_unset=True),
         )
-        return BytesIO(initial_bytes=response_data)
+        return response_data
 
     def send_email(
         self,
@@ -113,8 +113,6 @@ class Quotes(_BaseDocuments[QuoteItem]):
         )
         return [QuoteDocumentResponse(**item) for item in response_data]
 
-    def download_pdf(self, file_id: str) -> BytesIO:
-        response_data: bytes = self._requester(
-            "GET", f"quotes/download?file_id={file_id}"
-        )
-        return BytesIO(initial_bytes=response_data)
+    def download_pdf(self, file_id: str) -> PDFResponse:
+        response_data = self._requester("GET", f"quotes/download?file_id={file_id}")
+        return response_data

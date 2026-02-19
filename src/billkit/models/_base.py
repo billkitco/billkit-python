@@ -1,10 +1,31 @@
+import os
 from collections.abc import Sequence
 from datetime import datetime
 from decimal import Decimal
 from enum import StrEnum
+from io import BytesIO
 from typing import Any
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
+
+
+class PDFResponse(BytesIO):
+    """
+    BytesIO subclass returned for PDF responses (e.g. from create).
+    Use as a file-like object for the PDF bytes; use .file_id for the
+    stored file identifier when upload_to_s3/save_to_cloud was True.
+    """
+
+    file_id: str | None = None
+
+    def __init__(self, initial_bytes: bytes = b"", file_id: str | None = None) -> None:
+        super().__init__(initial_bytes)
+        self.file_id = file_id
+
+    def save(self, file_path: os.PathLike[str] | str) -> None:
+        self.seek(0)
+        with open(file_path, "wb") as f:
+            f.write(self.getvalue())
 
 
 class DiscountType(StrEnum):

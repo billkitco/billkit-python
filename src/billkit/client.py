@@ -9,6 +9,10 @@ from .api.reports import Reports
 from .api.templates import Templates
 from .api.users import Users
 from .exceptions import BillKitException
+from .models._base import PDFResponse
+
+
+
 
 
 class BillKitClient:
@@ -69,7 +73,8 @@ class BillKitClient:
             (resp.headers.get("content-type") or "").lower().split(";")[0].strip()
         )
         if content_type == "application/pdf":
-            return resp.content
+            file_id = resp.headers.get("X-Billkit-File-Id")
+            return PDFResponse(initial_bytes=resp.content, file_id=file_id)
         try:
             return resp.json()
         except ValueError:

@@ -1,10 +1,10 @@
 import os
 from collections.abc import Callable, Sequence
-from io import BytesIO
 from typing import Any, get_args
 
 from typing_extensions import override
 
+from ...models._base import PDFResponse
 from ...models.invoices import (
     InvoiceBatchResponse,
     InvoiceBatchStatusResponse,
@@ -18,7 +18,7 @@ from ...models.invoices import (
     InvoiceStatusUpdateRequest,
     InvoiceStatusUpdateResponse,
 )
-from .._base import _BaseDocuments
+from .._base import _BaseDocuments  # pyright: ignore[reportPrivateUsage]
 
 
 class Invoices(_BaseDocuments[InvoiceItem]):
@@ -37,7 +37,7 @@ class Invoices(_BaseDocuments[InvoiceItem]):
         invoice_date: str | None = None,
         save_to_cloud: bool = True,
         **kwargs: Any,
-    ) -> BytesIO:
+    ) -> PDFResponse:
         payload_dict: Any = dict(
             client_name=client_name,
             client_email=client_email,
@@ -49,12 +49,12 @@ class Invoices(_BaseDocuments[InvoiceItem]):
             **kwargs,
         )
         payload = InvoiceCreatePayload(**payload_dict)
-        response_data: bytes = self._requester(
+        response_data: PDFResponse = self._requester(
             "POST",
             "invoices/generate",
             json=payload.model_dump(mode="json", exclude_unset=True),
         )
-        return BytesIO(initial_bytes=response_data)
+        return response_data
 
     def update_status(
         self, file_id: str, *, invoice_status: InvoiceStatus
@@ -134,8 +134,6 @@ class Invoices(_BaseDocuments[InvoiceItem]):
         )
         return [InvoiceDocumentResponse.model_validate(item) for item in response_data]
 
-    def download_pdf(self, file_id: str) -> BytesIO:
-        response_data: bytes = self._requester(
-            "GET", f"invoices/download?file_id={file_id}"
-        )
-        return BytesIO(initial_bytes=response_data)
+    def download_pdf(self, file_id: str) -> PDFResponse:
+        response_data = self._requester("GET", f"invoices/download?file_id={file_id}")
+        return response_data
