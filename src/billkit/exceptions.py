@@ -1,5 +1,7 @@
 """BillKit SDK exceptions."""
 
+from typing import Any
+
 
 class BillKitException(Exception):
     """
@@ -14,7 +16,7 @@ class BillKitException(Exception):
         message: str,
         *,
         status_code: int | None = None,
-        response_body: str | dict | None = None,
+        response_body: str | dict[str, Any] | None = None,
     ) -> None:
         super().__init__(message)
         self.message = message

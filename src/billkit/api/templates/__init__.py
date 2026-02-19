@@ -1,4 +1,5 @@
 from collections.abc import Callable
+from typing import Any
 
 from ...models.templates import (
     CreateCustomTemplateRequest,
@@ -11,7 +12,7 @@ from ...models.templates import (
 
 
 class Templates:
-    def __init__(self, requester: Callable) -> None:
+    def __init__(self, requester: Callable[..., dict[str, Any]]) -> None:
         self._requester = requester
 
     def get_templates(self) -> TemplatesListResponse:

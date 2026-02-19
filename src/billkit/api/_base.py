@@ -7,7 +7,7 @@ from ..models._base import _BaseItem
 
 
 class _BaseDocuments(ABC):
-    def __init__(self, requester: Callable) -> None:
+    def __init__(self, requester: Callable[..., Any]) -> None:
         self._requester = requester
 
     def create(
@@ -17,8 +17,8 @@ class _BaseDocuments(ABC):
         client_email: str,
         items: Sequence[_BaseItem],
         save_to_cloud: bool = True,
-        **kwargs,
-    ) -> Any: ...
+        **kwargs: Any,
+    ) -> bytes: ...
 
     @abstractmethod
     def list(self, *, limit: int, offset: int) -> Any: ...

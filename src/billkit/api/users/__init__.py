@@ -1,11 +1,12 @@
 import os
 from collections.abc import Callable
+from typing import Any
 
 from ...models.users import LogoUploadResponse, PartialUserDetails, UserDetails
 
 
 class Users:
-    def __init__(self, requester: Callable) -> None:
+    def __init__(self, requester: Callable[..., dict[str, Any]]) -> None:
         self._requester = requester
 
     def get_user(self) -> UserDetails:
