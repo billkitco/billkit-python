@@ -26,9 +26,6 @@ class _BaseDocuments(ABC, Generic[T]):
         **kwargs: Any,
     ) -> "BytesIO": ...
 
-    # @abstractmethod
-    # def record(self): ...
-
     @abstractmethod
     def delete(self, file_id: str) -> Any: ...
 
