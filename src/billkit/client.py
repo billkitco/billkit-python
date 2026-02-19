@@ -65,6 +65,9 @@ class BillkitClient:
             ) from e
         except httpx.RequestError as e:
             raise BillKitException(str(e)) from e
+        content_type = (resp.headers.get("content-type") or "").lower().split(";")[0].strip()
+        if content_type == "application/pdf":
+            return resp.content
         try:
             return resp.json()
         except ValueError:
