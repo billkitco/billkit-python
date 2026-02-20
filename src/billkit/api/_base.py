@@ -69,3 +69,6 @@ class _BaseDocuments(ABC, Generic[T]):  # pyright: ignore[reportUnusedClass]
 
     @abstractmethod
     def list(self, *, limit: int, offset: int) -> Sequence[Any]: ...
+
+    @abstractmethod
+    def get_document(self, file_id: str) -> Any: ...
