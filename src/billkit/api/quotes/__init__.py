@@ -12,6 +12,8 @@ from ...models.quotes import (
     QuoteCreatePayload,
     QuoteDeleteResponse,
     QuoteDocumentResponse,
+    QuoteByIdResponse,
+    QuoteGetResponse,
     QuoteItem,
     QuoteSendEmailRequest,
     QuoteSendEmailResponse,
@@ -115,7 +117,17 @@ class Quotes(_BaseDocuments[QuoteItem]):
         return [QuoteDocumentResponse(**item) for item in response_data]
 
     def download_pdf(self, file_id: str) -> PDFResponse:
-        response_data = self._requester("GET", f"quotes/download?file_id={file_id}")
+        """
+        Get PDF of the specified document.
+
+        To get the raw details of the document instead use
+        ```python
+        client.quotes.get_document(file_id)
+        ```
+        """
+        response_data: PDFResponse = self._requester(
+            "GET", f"quotes/download?file_id={file_id}"
+        )
         return response_data
 
     def convert_to_invoice(
@@ -132,3 +144,19 @@ class Quotes(_BaseDocuments[QuoteItem]):
             upload_to_s3=save_to_cloud,
         )
         return self._requester("POST", "quotes/convert", json=payload.model_dump())
+
+    def get_document(self, file_id: str) -> QuoteByIdResponse:
+        """
+        Get document details of the quote rather than the PDF file.
+
+        Returns a wrapper with ``file_id``, ``quote_number``, ``created_at``, and
+        ``data`` (the quote payload: client_name, items, etc.). Use ``.data`` for
+        the quote fields.
+
+        To get the PDF file instead use
+        ```python
+        client.quotes.download_pdf(file_id)
+        ```
+        """
+        response_data = self._requester("GET", f"quotes/by-id/{file_id}")
+        return QuoteByIdResponse(**response_data)

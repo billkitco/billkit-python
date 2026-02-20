@@ -8,9 +8,11 @@ from ...models._base import PDFResponse
 from ...models.invoices import (
     InvoiceBatchResponse,
     InvoiceBatchStatusResponse,
+    InvoiceByIdResponse,
     InvoiceCreatePayload,
     InvoiceDeleteResponse,
     InvoiceDocumentResponse,
+    InvoiceGetResponse,
     InvoiceItem,
     InvoiceSendEmailRequest,
     InvoiceSendEmailResponse,
@@ -135,5 +137,31 @@ class Invoices(_BaseDocuments[InvoiceItem]):
         return [InvoiceDocumentResponse.model_validate(item) for item in response_data]
 
     def download_pdf(self, file_id: str) -> PDFResponse:
-        response_data = self._requester("GET", f"invoices/download?file_id={file_id}")
+        """
+        Get PDF of the specified document.
+
+        To get the raw details of the document instead use
+        ```python
+        client.invoices.get_document(file_id)
+        ```
+        """
+        response_data: PDFResponse = self._requester(
+            "GET", f"invoices/download?file_id={file_id}"
+        )
         return response_data
+
+    def get_document(self, file_id: str) -> InvoiceByIdResponse:
+        """
+        Get document details of the invoice rather than the PDF file.
+
+        Returns a wrapper with ``file_id``, ``invoice_number``, ``due_date``,
+        ``status``, ``created_at``, and ``data`` (the invoice payload: client_name,
+        items, etc.). Use ``.data`` for the invoice fields.
+
+        To get the PDF file instead use
+        ```python
+        client.invoices.download_pdf(file_id)
+        ```
+        """
+        response_data = self._requester("GET", f"invoices/by-id/{file_id}")
+        return InvoiceByIdResponse(**response_data)
