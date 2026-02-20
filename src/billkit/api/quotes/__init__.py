@@ -116,3 +116,6 @@ class Quotes(_BaseDocuments[QuoteItem]):
     def download_pdf(self, file_id: str) -> PDFResponse:
         response_data = self._requester("GET", f"quotes/download?file_id={file_id}")
         return response_data
+
+    def convert_to_invoice(self) -> PDFResponse:
+        raise NotImplementedError("convert_to_invoice is not implemented")
