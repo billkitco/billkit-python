@@ -53,6 +53,8 @@ class DiscountType(StrEnum):
 
 
 class _SendEmailRequest(BaseModel):  # pyright: ignore[reportUnusedClass]
+    """Base model for email requests"""
+
     to: Sequence[str]
     subject: str
     body: str
@@ -61,6 +63,8 @@ class _SendEmailRequest(BaseModel):  # pyright: ignore[reportUnusedClass]
 
 
 class _SendEmailResponse(BaseModel):  # pyright: ignore[reportUnusedClass]
+    """Base model for email response"""
+
     success: bool
     message_id: str | None
     status_code: int
