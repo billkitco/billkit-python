@@ -6,6 +6,7 @@ from typing_extensions import override
 
 from ...models._base import PDFResponse
 from ...models.quotes import (
+    Quote2InvoiceRequest,
     QuoteBatchResponse,
     QuoteBatchStatusResponse,
     QuoteCreatePayload,
@@ -117,5 +118,17 @@ class Quotes(_BaseDocuments[QuoteItem]):
         response_data = self._requester("GET", f"quotes/download?file_id={file_id}")
         return response_data
 
-    def convert_to_invoice(self) -> PDFResponse:
-        raise NotImplementedError("convert_to_invoice is not implemented")
+    def convert_to_invoice(
+        self,
+        *,
+        file_id: str,
+        invoice_number: str | None = None,
+        save_to_cloud: bool = True,
+    ) -> PDFResponse:
+
+        payload = Quote2InvoiceRequest(
+            file_id=file_id,
+            invoice_number=invoice_number,
+            upload_to_s3=save_to_cloud,
+        )
+        return self._requester("POST", "quotes/convert", json=payload.model_dump())
