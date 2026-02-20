@@ -12,7 +12,6 @@ from ...models.invoices import (
     InvoiceCreatePayload,
     InvoiceDeleteResponse,
     InvoiceDocumentResponse,
-    InvoiceGetResponse,
     InvoiceItem,
     InvoiceSendEmailRequest,
     InvoiceSendEmailResponse,
