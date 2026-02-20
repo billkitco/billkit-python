@@ -23,6 +23,8 @@ from .._base import _BaseDocuments  # pyright: ignore[reportPrivateUsage]
 
 
 class Invoices(_BaseDocuments[InvoiceItem]):
+    """API client for creating, listing, and managing invoices."""
+
     def __init__(self, requester: Callable[..., Any]) -> None:
         super().__init__(requester)
 
@@ -39,6 +41,23 @@ class Invoices(_BaseDocuments[InvoiceItem]):
         save_to_cloud: bool = True,
         **kwargs: Any,
     ) -> PDFResponse:
+        """Generate a single invoice and return its PDF.
+
+        Args:
+            client_name: Name of the client or recipient.
+            client_email: Email address of the client.
+            items: Line items (description, quantity, unit price, etc.).
+            invoice_number: Unique identifier for the invoice.
+            due_date: Due date for payment (format as required by the API).
+            invoice_date: Optional issue date of the invoice. Defaults to None.
+            save_to_cloud: Whether to upload the generated PDF to cloud storage.
+                Defaults to True.
+            **kwargs: Additional payload fields passed through to the API.
+
+        Returns:
+            PDFResponse: File-like object containing the PDF bytes; may include
+                file_id if save_to_cloud is True.
+        """
         payload_dict: Any = dict(
             client_name=client_name,
             client_email=client_email,
@@ -60,6 +79,18 @@ class Invoices(_BaseDocuments[InvoiceItem]):
     def update_status(
         self, file_id: str, *, invoice_status: InvoiceStatus
     ) -> InvoiceStatusUpdateResponse:
+        """Update the status of an existing invoice by file_id.
+
+        Args:
+            file_id: Identifier of the stored invoice document.
+            invoice_status: New status (e.g. paid, sent, overdue).
+
+        Returns:
+            InvoiceStatusUpdateResponse: Confirmation of the status update.
+
+        Raises:
+            ValueError: If invoice_status is not a valid InvoiceStatus value.
+        """
         if invoice_status not in get_args(InvoiceStatus):
             raise ValueError(f"invoice_status must be either {get_args(InvoiceStatus)}")
 
@@ -74,6 +105,14 @@ class Invoices(_BaseDocuments[InvoiceItem]):
         return InvoiceStatusUpdateResponse(**request_data)
 
     def delete(self, file_id: str) -> InvoiceDeleteResponse:
+        """Delete an invoice document by file_id.
+
+        Args:
+            file_id: Identifier of the stored invoice to delete.
+
+        Returns:
+            InvoiceDeleteResponse: Confirmation of the deletion.
+        """
         response_data = self._requester("DELETE", f"invoices?file_id={file_id}")
         return InvoiceDeleteResponse(**response_data)
 
@@ -86,6 +125,18 @@ class Invoices(_BaseDocuments[InvoiceItem]):
         from_email: str | None = None,
         file_ids: Sequence[str] | None = None,
     ) -> InvoiceSendEmailResponse:
+        """Send one or more invoice PDFs by email.
+
+        Args:
+            to: List of recipient email addresses.
+            subject: Email subject line.
+            body: Optional email body. Defaults to empty string.
+            from_email: Optional sender address. Defaults to None.
+            file_ids: Optional list of invoice file_ids to attach. Defaults to None.
+
+        Returns:
+            InvoiceSendEmailResponse: Result of the send operation.
+        """
         payload = InvoiceSendEmailRequest(
             to=to,
             subject=subject,
@@ -102,7 +153,15 @@ class Invoices(_BaseDocuments[InvoiceItem]):
         data_file_path: os.PathLike[str],
         items_file_path: os.PathLike[str],
     ) -> InvoiceBatchResponse:
-        """Create a batch invoices job from two CSV files (invoices data + line items)."""
+        """Create a batch invoices job from two CSV files (invoices data + line items).
+
+        Args:
+            data_file_path: Path to the CSV with invoice-level data.
+            items_file_path: Path to the CSV with line items.
+
+        Returns:
+            InvoiceBatchResponse: Job details including job_id for status polling.
+        """
         data_path = os.fspath(data_file_path)
         items_path = os.fspath(items_file_path)
         with open(data_path, "rb") as invoice_f, open(items_path, "rb") as items_f:
@@ -116,6 +175,15 @@ class Invoices(_BaseDocuments[InvoiceItem]):
 
     @override
     def get_batch_status(self, job_id: str) -> InvoiceBatchStatusResponse:
+        """Get the status and results of a batch invoices job.
+
+        Args:
+            job_id: Identifier of the batch job (from create_batch_from_csv or
+                create_batch_from_json).
+
+        Returns:
+            InvoiceBatchStatusResponse: Current status and any completed outputs.
+        """
         data = super().get_batch_status(job_id)
         return InvoiceBatchStatusResponse.model_validate(data)
 
@@ -123,6 +191,15 @@ class Invoices(_BaseDocuments[InvoiceItem]):
         self,
         data: dict[str, Any],
     ) -> InvoiceBatchResponse:
+        """Create a batch invoices job from a JSON payload.
+
+        Args:
+            data: JSON-serializable dict with batch invoice data (structure as
+                required by the API).
+
+        Returns:
+            InvoiceBatchResponse: Job details including job_id for status polling.
+        """
         return InvoiceBatchResponse(
             **self._requester("POST", "batch/invoices/json", json=data)
         )
@@ -130,19 +207,32 @@ class Invoices(_BaseDocuments[InvoiceItem]):
     def list(
         self, *, limit: int = 50, offset: int = 0
     ) -> Sequence[InvoiceDocumentResponse]:
+        """List invoice documents with optional pagination.
+
+        Args:
+            limit: Maximum number of documents to return. Defaults to 50.
+            offset: Number of documents to skip. Defaults to 0.
+
+        Returns:
+            Sequence of InvoiceDocumentResponse for each invoice.
+        """
         response_data = self._requester(
             "GET", "invoices", params={"limit": limit, "offset": offset}
         )
         return [InvoiceDocumentResponse.model_validate(item) for item in response_data]
 
     def download_pdf(self, file_id: str) -> PDFResponse:
-        """
-        Get PDF of the specified document.
+        """Download the PDF of the specified invoice.
 
-        To get the raw details of the document instead use
-        ```python
-        client.invoices.get_document(file_id)
-        ```
+        Args:
+            file_id: Identifier of the stored invoice.
+
+        Returns:
+            PDFResponse: File-like object containing the PDF bytes.
+
+        Note:
+            To get document metadata (invoice_number, due_date, status, etc.)
+            instead of the PDF, use client.invoices.get_document(file_id).
         """
         response_data: PDFResponse = self._requester(
             "GET", f"invoices/download?file_id={file_id}"
@@ -150,17 +240,18 @@ class Invoices(_BaseDocuments[InvoiceItem]):
         return response_data
 
     def get_document(self, file_id: str) -> InvoiceByIdResponse:
-        """
-        Get document details of the invoice rather than the PDF file.
+        """Get full document details of an invoice (metadata and payload, not the PDF).
 
-        Returns a wrapper with ``file_id``, ``invoice_number``, ``due_date``,
-        ``status``, ``created_at``, and ``data`` (the invoice payload: client_name,
-        items, etc.). Use ``.data`` for the invoice fields.
+        Args:
+            file_id: Identifier of the stored invoice.
 
-        To get the PDF file instead use
-        ```python
-        client.invoices.download_pdf(file_id)
-        ```
+        Returns:
+            InvoiceByIdResponse: Wrapper with file_id, invoice_number, due_date,
+                status, created_at, and data (invoice payload: client_name, items,
+                etc.). Use .data for the invoice fields.
+
+        Note:
+            To get the PDF file instead, use client.invoices.download_pdf(file_id).
         """
         response_data = self._requester("GET", f"invoices/by-id/{file_id}")
         return InvoiceByIdResponse(**response_data)
